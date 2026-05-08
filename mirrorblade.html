@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MirrorBlade - Team Calico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #1a1d24;
+            --accent: #00ADB5;
+            --text-main: #eeeeee;
+            --text-muted: #a0a5b1;
+            --font-main: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        header { padding: 20px 50px; background: rgba(15, 17, 21, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { font-weight: 600; font-size: 0.9rem; color: var(--text-main); transition: color 0.3s; }
+        .back-btn:hover { color: var(--accent); }
+
+        .game-container { padding: 40px 10%; max-width: 1400px; margin: 0 auto; }
+        
+        .webgl-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--card-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; position: relative;}
+        .webgl-placeholder { color: var(--text-muted); font-size: 1.2rem; text-align: center; }
+        /* Buraya iframe veya canvas kodun gelecek */
+
+        .game-content { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        @media (max-width: 900px) { .game-content { grid-template-columns: 1fr; } }
+
+        .details h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; }
+        .details h3 { margin-top: 30px; margin-bottom: 10px; color: #fff; font-size: 1.3rem; border-bottom: 2px solid var(--card-bg); padding-bottom: 5px;}
+        .details p { color: var(--text-muted); margin-bottom: 15px; }
+        .details ul { list-style-position: inside; color: var(--text-muted); margin-bottom: 15px; }
+        .details li { margin-bottom: 8px; }
+        .details strong { color: #fff; }
+
+        .media-gallery { display: flex; flex-direction: column; gap: 20px; }
+        .media-img { width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
+        .media-img:hover { transform: scale(1.02); border-color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="/Images/Logo_Header.png" alt="Team Calico" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
+        </div>
+        <a href="index.html#games" class="back-btn">&larr; Back to Games</a>
+    </header>
+
+    <div class="game-container">
+        
+        <div class="webgl-wrapper">
+            <div class="webgl-placeholder">
+                <p>WebGL Build Placeholder</p>
+                <p style="font-size:0.9rem; opacity:0.6;">(Deploy your Unity WebGL build here)</p>
+            </div>
+            </div>
+
+        <div class="game-content">
+            <div class="details">
+                <h1>MirrorBlade</h1>
+                <p>A fast-paced action-roguelike where you defend a central core using your blade and synchronized reflections to slice enemies and parry projectiles.</p>
+                <p>MirrorBlade was developed for the Aydın Game Jam, where it was awarded <strong>1st Place</strong>. The game challenges players to protect the heart of the universe against relentless waves of enemies. By controlling a character and its synchronized mirrors, players must utilize precise movement, tactical positioning, and timing to survive the onslaught.</p>
+
+                <h3>Developers</h3>
+                <ul>
+                    <li>Efe Görkem Akkanat</li>
+                    <li>Görkem Altıntaş</li>
+                </ul>
+
+                <h3>Key Mechanics</h3>
+                <ul>
+                    <li><strong>Parry and Reflect:</strong> Use your attack to deflect enemy projectiles. Reflected projectiles can be redirected toward enemies to deal massive damage.</li>
+                    <li><strong>Dynamic Movement:</strong> Navigate the circular arena while maintaining a strategic position relative to the Core.</li>
+                    <li><strong>Dash and Slash:</strong> Use the dash ability to reposition quickly or pierce through enemy lines.</li>
+                    <li><strong>Modular Architecture:</strong> Built using an event-driven, decoupled architecture for high performance and easy extensibility.</li>
+                </ul>
+
+                <h3>Controls</h3>
+                <ul>
+                    <li><strong>Rotate:</strong> Move Mouse (Character follows the cursor direction).</li>
+                    <li><strong>Move:</strong> Click and Hold Left Mouse Button (Move towards the cursor).</li>
+                    <li><strong>Attack:</strong> Space Bar (Melee strike and projectile parry).</li>
+                    <li><strong>Dash:</strong> Left Shift (Quick burst of movement, consumes mana).</li>
+                </ul>
+            </div>
+
+            <div class="media-gallery">
+                <img src="/Images/MirrorBlade_image1.jpg" alt="MirrorBlade Screenshot 1" class="media-img" onerror="this.style.display='none'">
+                <img src="/Images/MirrorBlade_image2.jpg" alt="MirrorBlade Screenshot 2" class="media-img" onerror="this.style.display='none'">
+                <img src="/Images/MirrorBlade_image3.jpg" alt="MirrorBlade Screenshot 3" class="media-img" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

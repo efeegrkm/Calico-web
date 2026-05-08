@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calico Studio</title>
+    <title>Team Calico</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         /* === TEMEL DEĞİŞKENLER VE SIFIRLAMA === */
         :root {
-            --bg-color: #0f1115; /* Koyu modern arka plan */
+            --bg-color: #0f1115;
             --card-bg: #1a1d24;
-            --accent: #00ADB5; /* Teal aksan rengi */
+            --accent: #00ADB5;
             --accent-glow: rgba(0, 173, 181, 0.4);
             --gold: #FFD700;
             --text-main: #eeeeee;
@@ -38,7 +38,7 @@
 
         /* === SECTIONS GENEL === */
         section { padding: 100px 10%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 50px; text-align: center; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px;}
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; text-align: center; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px;}
         .section-title span { color: var(--accent); }
 
         /* === HERO SECTION === */
@@ -48,7 +48,8 @@
         .btn { padding: 15px 30px; background: var(--accent); color: #fff; font-weight: 600; border-radius: 30px; transition: all 0.3s ease; display: inline-block; cursor: pointer; border: none;}
         .btn:hover { background: #00c9d2; transform: translateY(-3px); box-shadow: 0 10px 20px var(--accent-glow); }
 
-        /* === BAŞARILAR (TIMELINE) === */
+        /* === ABOUT US & TIMELINE === */
+        .about-text { max-width: 800px; margin: 0 auto 50px auto; text-align: center; color: var(--text-muted); font-size: 1.1rem; }
         .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-left: 30px; border-left: 3px solid var(--accent); }
         .timeline-item { position: relative; margin-bottom: 40px; padding: 20px; background: var(--card-bg); border-radius: 10px; transition: transform 0.3s; }
         .timeline-item:hover { transform: translateX(10px); }
@@ -66,8 +67,8 @@
         .game-info h3 { font-size: 1.3rem; margin-bottom: 10px; }
         .game-info .btn { padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; }
 
-        /* === TAKIM KÖKLERİ (SVG VIBE) === */
-        #takim { text-align: center; }
+        /* === TAKIM KÖKLERİ === */
+        #team { text-align: center; }
         .team-tree { position: relative; margin-top: 20px; }
         .root-logo { width: 100px; height: 100px; margin: 0 auto 20px auto; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow); z-index: 2; position: relative;}
         .root-logo img { width: 60px; }
@@ -81,34 +82,29 @@
         .member-photo { width: 100px; height: 100px; border-radius: 50%; background-color: #2a2e37; margin: 0 auto 15px auto; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); background-size: cover; background-position: center;}
         .member-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
         .member-role { font-size: 0.8rem; color: var(--accent); margin-bottom: 15px; }
-        .member-bio { font-size: 0.8rem; color: var(--text-muted); min-height: 60px; }
 
         /* === GALERİ === */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; grid-auto-rows: 200px; grid-auto-flow: dense; }
         .gallery-item { background-color: #2a2e37; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; background-size: cover; background-position: center; transition: transform 0.3s;}
         .gallery-item:hover { transform: scale(1.02); z-index: 1; }
-        /* Bazı fotoğrafları yatay/dikey genişletmek için classlar */
         .gallery-item.wide { grid-column: span 2; }
         .gallery-item.tall { grid-row: span 2; }
 
         /* === İLETİŞİM BALONCUĞU === */
         .chat-bubble-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 1001; transition: transform 0.3s; }
         .chat-bubble-btn:hover { transform: scale(1.1); }
-        .chat-bubble-btn img { width: 30px; }
-        
         .contact-modal { position: fixed; bottom: 100px; right: 30px; width: 300px; background: var(--card-bg); border-radius: 15px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); z-index: 1001; display: none; opacity: 0; transition: opacity 0.3s ease;}
         .contact-modal.active { display: block; opacity: 1; }
         .contact-modal h4 { margin-bottom: 15px; color: var(--accent); }
         .contact-modal input, .contact-modal textarea, .contact-modal select { width: 100%; margin-bottom: 10px; padding: 10px; background: #0f1115; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 5px; font-family: var(--font-main);}
         .contact-modal button { width: 100%; }
 
-        /* === RESPONSIVE === */
         @media (max-width: 768px) {
             header { padding: 20px; flex-direction: column; gap: 15px; }
             section { padding: 120px 5%; }
             #hero h1 { font-size: 2.5rem; }
             .team-members { margin-top: 100px; flex-direction: column; }
-            .roots-svg { display: none; /* Mobilde çizgileri gizle */ }
+            .roots-svg { display: none; }
         }
     </style>
 </head>
@@ -116,59 +112,57 @@
 
     <header>
         <div class="logo">
-            <a href="#hero"><img src="/Images/Logo_Header.png" alt="Calico Studio Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2224%22 font-weight=%22bold%22>CALICO</text></svg>'"></a>
+            <a href="#hero"><img src="/Images/Logo_Header.png" alt="Team Calico Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
         </div>
         <nav>
             <ul>
-                <li><a href="#hakkimizda">Hakkımızda</a></li>
-                <li><a href="#oyunlar">Oyunlar</a></li>
-                <li><a href="#takim">Takım</a></li>
-                <li><a href="#galeri">Galeri</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#gallery">Gallery</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="hero">
-        <h1>OYUNLARA CAN VEREN EKİP</h1>
-        <p>Aydın'dan Rakun'a, Game Jam'lerin tozunu yutan bağımsız oyun geliştirme stüdyosu.</p>
-        <a href="#oyunlar" class="btn">Oyunları Keşfet</a>
+        <h1>TEAM CALICO</h1>
+        <p>An independent game development studio forged in Game Jams.</p>
+        <a href="#games" class="btn">Explore Our Games</a>
     </section>
 
-    <section id="hakkimizda">
-        <h2 class="section-title">Neler <span>Başardık?</span></h2>
+    <section id="about">
+        <h2 class="section-title">About <span>Us</span></h2>
+        <p class="about-text">Team Calico is a strong, highly collaborative studio formed by talented individuals from various disciplines who met at Game Jams. Driven by a shared passion for game development, we are constantly evolving and highly open to new collaborations.</p>
+        
         <div class="timeline">
-            
             <div class="timeline-item">
-                <h3>1.lik Ödülü</h3>
+                <h3>1st Place</h3>
                 <h4>Aydın Game Jam</h4>
-                <p><strong>MirrorBlade</strong> ile yarışarak birinci olduk. Kılıcımızın her yansıması bizi zafere taşıdı!</p>
+                <p>Awarded 1st place with our action-roguelike game, <strong>MirrorBlade</strong>.</p>
             </div>
-
             <div class="timeline-item">
-                <h3>2.lik & En İyi Ses Tasarımı</h3>
+                <h3>2nd Place & Best Sound Design</h3>
                 <h4>Rakun Game Jam</h4>
-                <p><strong>Not a piece of cake</strong> projemizle sadece derece yapmakla kalmadık, atmosferik ses tasarımımızla da jürinin kulaklarının pasını sildik.</p>
+                <p>Achieved 2nd place overall and won the Best Sound Design award with our project, <strong>Not a piece of cake</strong>.</p>
             </div>
-
             <div class="timeline-item">
-                <h3>Sürekli Gelişim</h3>
-                <h4>Diğer Katılımlar</h4>
-                <p>Atom Game Jam, TOBB Game Jam, TEDU Game Jam gibi etkinliklerde boy göstererek sınırları zorladık ve üretmeye devam ediyoruz.</p>
+                <h3>Continuous Growth</h3>
+                <h4>Other Participations</h4>
+                <p>Active participants in Atom Game Jam, TOBB Game Jam, and TEDU Game Jam, continually pushing our limits and honing our skills.</p>
             </div>
-
         </div>
     </section>
 
-    <section id="oyunlar">
-        <h2 class="section-title"><span>Oyun</span>larımız</h2>
+    <section id="games">
+        <h2 class="section-title">Our <span>Games</span></h2>
         <div class="games-grid">
             
             <div class="game-card">
                 <div class="game-img" style="background-image: url('/Images/Game_Cake_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>Not a piece of cake</h3>
-                    <p>Rakun Game Jam 2.lik ve En İyi Ses Tasarımı ödüllü atmosferik macera.</p>
-                    <a href="#" class="btn">İncele</a>
+                    <p>Rakun Game Jam 2nd Place & Best Sound Design winning atmospheric adventure.</p>
+                    <a href="cake.html" class="btn">Play / Details</a>
                 </div>
             </div>
 
@@ -176,8 +170,8 @@
                 <div class="game-img" style="background-image: url('/Images/Game_MirrorBlade_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>MirrorBlade</h3>
-                    <p>Aydın Game Jam 1.lik ödüllü aksiyon ve refleks odaklı şaheserimiz.</p>
-                    <a href="#" class="btn">İncele</a>
+                    <p>Aydın Game Jam 1st Place winning action and reflex-focused game.</p>
+                    <a href="mirrorblade.html" class="btn">Play / Details</a>
                 </div>
             </div>
 
@@ -185,8 +179,8 @@
                 <div class="game-img" style="background-image: url('/Images/Game_Otis_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>Oti's Journal Prince in pieces</h3>
-                    <p>Parçalara ayrılmış bir hikayenin karanlık günlük sayfalarında gezin.</p>
-                    <a href="#" class="btn">İncele</a>
+                    <p>Navigate through the dark journal pages of a shattered story.</p>
+                    <a href="otis.html" class="btn">Play / Details</a>
                 </div>
             </div>
 
@@ -194,20 +188,20 @@
                 <div class="game-img" style="background-image: url('/Images/Game_MToys_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>M'Toys</h3>
-                    <p>Eğlenceli, dinamik ve oyuncaklarla dolu sürükleyici bir deneyim.</p>
-                    <a href="#" class="btn">İncele</a>
+                    <p>A fun, dynamic, and immersive experience filled with toys.</p>
+                    <a href="mtoys.html" class="btn">Play / Details</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <section id="takim">
-        <h2 class="section-title">Calico <span>Kökleri</span></h2>
+    <section id="team">
+        <h2 class="section-title">Calico <span>Roots</span></h2>
         
         <div class="team-tree">
             <div class="root-logo">
-                <img src="/Images/Logo_Calico_Roots.png" alt="Kök" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%230f1115%22/><text x=%2235%22 y=%2255%22 fill=%22%2300ADB5%22 font-size=%2220%22>C</text></svg>'">
+                <img src="/Images/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%230f1115%22/><text x=%2235%22 y=%2255%22 fill=%22%2300ADB5%22 font-size=%2220%22>C</text></svg>'">
             </div>
             
             <svg class="roots-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
@@ -219,48 +213,41 @@
             </svg>
 
             <div class="team-members">
-                
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/Photo_Efe.jpg');"></div>
                     <div class="member-name">Efe Görkem Akkanat</div>
-                    <div class="member-role">Unity & C# Geliştirici</div>
-                    <div class="member-bio"></div>
+                    <div class="member-role">Developer / Pixel Artist</div>
                 </div>
 
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/Photo_Rana.jpg');"></div>
                     <div class="member-name">Rana Demir</div>
-                    <div class="member-role">Geliştirici / Tasarımcı</div>
-                    <div class="member-bio"></div>
+                    <div class="member-role">Developer / 3D Designer</div>
                 </div>
 
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/Photo_Dilay.jpg');"></div>
                     <div class="member-name">Dilay Kocacık</div>
-                    <div class="member-role">Geliştirici / Tasarımcı</div>
-                    <div class="member-bio"></div>
+                    <div class="member-role">Art & Design</div>
                 </div>
 
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/Photo_EfeRe.jpg');"></div>
                     <div class="member-name">Reşat Efe Koca</div>
-                    <div class="member-role">Geliştirici / Ses Tasarım</div>
-                    <div class="member-bio"></div>
+                    <div class="member-role">Pixel Artist / Developer</div>
                 </div>
 
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/Photo_Gorkem.jpg');"></div>
                     <div class="member-name">Görkem Altıntaş</div>
-                    <div class="member-role">Geliştirici / Tasarımcı</div>
-                    <div class="member-bio"></div>
+                    <div class="member-role">Animator / Illustrator</div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <section id="galeri">
-        <h2 class="section-title">Sahne <span>Arkası</span></h2>
+    <section id="gallery">
+        <h2 class="section-title">Behind the <span>Scenes</span></h2>
         <div class="gallery-grid">
             <div class="gallery-item wide" style="background-image: url('/Images/Galeri_Jam_Aydin1.jpg');"></div>
             <div class="gallery-item" style="background-image: url('/Images/Galeri_Takim_Rakun.jpg');"></div>
@@ -275,22 +262,21 @@
     </div>
 
     <div class="contact-modal" id="contactModal">
-        <h4>Bizimle İletişime Geç</h4>
-        <form onsubmit="event.preventDefault(); alert('Mesaj özelliği daha sonra aktif edilecek!'); toggleContact();">
+        <h4>Contact Us</h4>
+        <form onsubmit="event.preventDefault(); alert('Message feature will be active soon!'); toggleContact();">
             <select id="konu">
-                <option value="genel">Genel İletişim</option>
-                <option value="sponsorluk">Sponsorluk Görüşmesi</option>
-                <option value="isbirligi">Proje İşbirliği</option>
+                <option value="general">General Inquiry</option>
+                <option value="sponsor">Sponsorship</option>
+                <option value="collab">Project Collaboration</option>
             </select>
-            <input type="text" placeholder="İsminiz / Şirketiniz" required>
-            <input type="email" placeholder="E-posta Adresiniz" required>
-            <textarea placeholder="Mesajınız..." rows="4" required></textarea>
-            <button type="submit" class="btn">Gönder</button>
+            <input type="text" placeholder="Name / Company" required>
+            <input type="email" placeholder="Email Address" required>
+            <textarea placeholder="Your Message..." rows="4" required></textarea>
+            <button type="submit" class="btn">Send</button>
         </form>
     </div>
 
     <script>
-        // İletişim baloncuğu aç/kapa
         function toggleContact() {
             const modal = document.getElementById('contactModal');
             if (modal.classList.contains('active')) {
@@ -301,14 +287,10 @@
                 setTimeout(() => modal.style.opacity = '1', 10);
             }
         }
-
-        // Yumuşak kaydırma (Smooth Scroll) Navbar Linkleri İçin
         document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
