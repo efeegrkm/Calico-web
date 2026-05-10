@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oti's Journal - Team Calico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #1a1d24;
+            --accent: #00ADB5;
+            --text-main: #eeeeee;
+            --text-muted: #a0a5b1;
+            --font-main: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        header { padding: 20px 50px; background: rgba(15, 17, 21, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { font-weight: 600; font-size: 0.9rem; color: var(--text-main); transition: color 0.3s; }
+        .back-btn:hover { color: var(--accent); }
+
+        .game-container { padding: 40px 10%; max-width: 1400px; margin: 0 auto; }
+        
+        .webgl-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--card-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; position: relative;}
+        .webgl-placeholder { color: var(--text-muted); font-size: 1.2rem; text-align: center; }
+        
+        .game-content { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        @media (max-width: 900px) { .game-content { grid-template-columns: 1fr; } }
+
+        .details h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; }
+        .details h3 { margin-top: 30px; margin-bottom: 10px; color: #fff; font-size: 1.3rem; border-bottom: 2px solid var(--card-bg); padding-bottom: 5px;}
+        .details p { color: var(--text-muted); margin-bottom: 15px; }
+        .details ul { list-style-position: inside; color: var(--text-muted); margin-bottom: 15px; }
+        .details li { margin-bottom: 8px; }
+        .details strong { color: #fff; }
+
+        .media-gallery { display: flex; flex-direction: column; gap: 20px; }
+        .media-img { width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
+        .media-img:hover { transform: scale(1.02); border-color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="/Images/Logo_Header.png" alt="Team Calico" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
+        </div>
+        <a href="index.html#games" class="back-btn">&larr; Back to Games</a>
+    </header>
+
+    <div class="game-container">
+        
+        <div class="webgl-wrapper">
+            <div class="webgl-placeholder">
+                <p>WebGL Build Placeholder</p>
+                <p style="font-size:0.9rem; opacity:0.6;">(Deploy your Unity WebGL build here)</p>
+            </div>
+        </div>
+
+        <div class="game-content">
+            <div class="details">
+                <h1>Oti's Journal: Prince in pieces</h1>
+                <p>A charming, story-driven 3D adventure where love leads the way. Embark on an emotional journey across a beautiful archipelago to find the scattered pieces of your beloved husband.</p>
+
+                <h3>Key Mechanics</h3>
+                <ul>
+                    <li><strong>Island Hopping with Oti:</strong> Travel from island to island with your loyal companion, Oti the Whale. Explore diverse, hand-crafted 3D environments to uncover secrets and progress through a heartwarming narrative.</li>
+                    <li><strong>Treasure Hunting:</strong> Search each island thoroughly to locate hidden treasure chests. Inside these chests lie the crucial fragments of maps that lead to your next destination.</li>
+                    <li><strong>Map Restoration Puzzles:</strong> Progress isn't just handed to you. When you find torn map pieces, you must engage in a jigsaw-style puzzle mini-game. Move, rotate, and combine the torn fragments perfectly to reveal the complete map.</li>
+                    <li><strong>Clue Following:</strong> Once a map is successfully restored, carefully follow its traces and environmental clues to unlock the path to the next island and edge closer to putting your prince back together.</li>
+                </ul>
+
+                <h3>Controls</h3>
+                <ul>
+                    <li><strong>Movement:</strong> W, A, S, D (Explore the 3D environments).</li>
+                    <li><strong>Camera / Interaction:</strong> Mouse (Look around and interact with chests/objects).</li>
+                    <li><strong>Map Puzzles:</strong> Left Mouse Button (Click and drag to move and combine map pieces).</li>
+                </ul>
+            </div>
+
+            <div class="media-gallery">
+                <img src="/Images/Otis_image1.jpg" alt="Oti's Journal Screenshot 1" class="media-img" onerror="this.style.display='none'">
+                <img src="/Images/Otis_image2.jpg" alt="Oti's Journal Screenshot 2" class="media-img" onerror="this.style.display='none'">
+                <img src="/Images/Otis_image3.jpg" alt="Oti's Journal Screenshot 3" class="media-img" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
