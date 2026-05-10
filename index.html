@@ -263,15 +263,15 @@
 
     <div class="contact-modal" id="contactModal">
         <h4>Contact Us</h4>
-        <form onsubmit="event.preventDefault(); alert('Message feature will be active soon!'); toggleContact();">
-            <select id="konu">
-                <option value="general">General Inquiry</option>
-                <option value="sponsor">Sponsorship</option>
-                <option value="collab">Project Collaboration</option>
+        <form action="https://formspree.io/f/mrejrzbb" method="POST">
+            <select name="subject" id="konu">
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Sponsorship">Sponsorship</option>
+                <option value="Project Collaboration">Project Collaboration</option>
             </select>
-            <input type="text" placeholder="Name / Company" required>
-            <input type="email" placeholder="Email Address" required>
-            <textarea placeholder="Your Message..." rows="4" required></textarea>
+            <input type="text" name="name" placeholder="Name / Company" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <textarea name="message" placeholder="Your Message..." rows="4" required></textarea>
             <button type="submit" class="btn">Send</button>
         </form>
     </div>
