@@ -83,22 +83,6 @@
         .member-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
         .member-role { font-size: 0.8rem; color: var(--accent); margin-bottom: 15px; }
 
-        /* === GALERİ === */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; grid-auto-rows: 200px; grid-auto-flow: dense; }
-        .gallery-item { background-color: #2a2e37; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; background-size: cover; background-position: center; transition: transform 0.3s;}
-        .gallery-item:hover { transform: scale(1.02); z-index: 1; }
-        .gallery-item.wide { grid-column: span 2; }
-        .gallery-item.tall { grid-row: span 2; }
-
-        /* === İLETİŞİM BALONCUĞU === */
-        .chat-bubble-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 1001; transition: transform 0.3s; }
-        .chat-bubble-btn:hover { transform: scale(1.1); }
-        .contact-modal { position: fixed; bottom: 100px; right: 30px; width: 300px; background: var(--card-bg); border-radius: 15px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); z-index: 1001; display: none; opacity: 0; transition: opacity 0.3s ease;}
-        .contact-modal.active { display: block; opacity: 1; }
-        .contact-modal h4 { margin-bottom: 15px; color: var(--accent); }
-        .contact-modal input, .contact-modal textarea, .contact-modal select { width: 100%; margin-bottom: 10px; padding: 10px; background: #0f1115; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 5px; font-family: var(--font-main);}
-        .contact-modal button { width: 100%; }
-
         @media (max-width: 768px) {
             header { padding: 20px; flex-direction: column; gap: 15px; }
             section { padding: 120px 5%; }
@@ -112,7 +96,7 @@
 
     <header>
         <div class="logo">
-            <a href="#hero"><img src="/Images/Logo_Header.png" alt="Team Calico Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
+            <a href="#hero"><img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
         </div>
         <nav>
             <ul>
@@ -158,7 +142,7 @@
         <div class="games-grid">
             
             <div class="game-card">
-                <div class="game-img" style="background-image: url('/Images/Game_Cake_Card.jpg');"></div>
+                <div class="game-img" style="background-image: url('/Images/OtherImages/Game_Cake_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>Not a piece of cake</h3>
                     <p>Rakun Game Jam 2nd Place & Best Sound Design winning atmospheric adventure.</p>
@@ -167,7 +151,7 @@
             </div>
 
             <div class="game-card">
-                <div class="game-img" style="background-image: url('/Images/Game_MirrorBlade_Card.jpg');"></div>
+                <div class="game-img" style="background-image: url('/Images/OtherImages/Game_MirrorBlade_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>MirrorBlade</h3>
                     <p>Aydın Game Jam 1st Place winning action and reflex-focused game.</p>
@@ -176,7 +160,7 @@
             </div>
 
             <div class="game-card">
-                <div class="game-img" style="background-image: url('/Images/Game_Otis_Card.jpg');"></div>
+                <div class="game-img" style="background-image: url('/Images/OtherImages/Game_Otis_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>Oti's Journal Prince in pieces</h3>
                     <p>Navigate through the dark journal pages of a shattered story.</p>
@@ -185,7 +169,7 @@
             </div>
 
             <div class="game-card">
-                <div class="game-img" style="background-image: url('/Images/Game_MToys_Card.jpg');"></div>
+                <div class="game-img" style="background-image: url('/Images/OtherImages/Game_MToys_Card.jpg');"></div>
                 <div class="game-info">
                     <h3>M'Toys</h3>
                     <p>A fun, dynamic, and immersive experience filled with toys.</p>
@@ -201,7 +185,7 @@
         
         <div class="team-tree">
             <div class="root-logo">
-                <img src="/Images/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%230f1115%22/><text x=%2235%22 y=%2255%22 fill=%22%2300ADB5%22 font-size=%2220%22>C</text></svg>'">
+                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%230f1115%22/><text x=%2235%22 y=%2255%22 fill=%22%2300ADB5%22 font-size=%2220%22>C</text></svg>'">
             </div>
             
             <svg class="roots-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
@@ -214,31 +198,31 @@
 
             <div class="team-members">
                 <div class="member-card">
-                    <div class="member-photo" style="background-image: url('/Images/Photo_Efe.jpg');"></div>
+                    <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Efe.jpg');"></div>
                     <div class="member-name">Efe Görkem Akkanat</div>
                     <div class="member-role">Developer / Pixel Artist</div>
                 </div>
 
                 <div class="member-card">
-                    <div class="member-photo" style="background-image: url('/Images/Photo_Rana.jpg');"></div>
+                    <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Rana.jpg');"></div>
                     <div class="member-name">Rana Demir</div>
                     <div class="member-role">Developer / 3D Designer</div>
                 </div>
 
                 <div class="member-card">
-                    <div class="member-photo" style="background-image: url('/Images/Photo_Dilay.jpg');"></div>
+                    <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Dilay.jpg');"></div>
                     <div class="member-name">Dilay Kocacık</div>
                     <div class="member-role">Art & Design</div>
                 </div>
 
                 <div class="member-card">
-                    <div class="member-photo" style="background-image: url('/Images/Photo_EfeRe.jpg');"></div>
+                    <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_EfeRe.jpg');"></div>
                     <div class="member-name">Reşat Efe Koca</div>
                     <div class="member-role">Pixel Artist / Developer</div>
                 </div>
 
                 <div class="member-card">
-                    <div class="member-photo" style="background-image: url('/Images/Photo_Gorkem.jpg');"></div>
+                    <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Gorkem.jpg');"></div>
                     <div class="member-name">Görkem Altıntaş</div>
                     <div class="member-role">Animator / Illustrator</div>
                 </div>
@@ -246,16 +230,92 @@
         </div>
     </section>
 
-    <section id="gallery">
+    <section id="gallery" style="position: relative; padding-bottom: 120px;">
         <h2 class="section-title">Behind the <span>Scenes</span></h2>
-        <div class="gallery-grid">
-            <div class="gallery-item wide" style="background-image: url('/Images/Galeri_Jam_Aydin1.jpg');"></div>
-            <div class="gallery-item" style="background-image: url('/Images/Galeri_Takim_Rakun.jpg');"></div>
-            <div class="gallery-item tall" style="background-image: url('/Images/Galeri_Sahne.jpg');"></div>
-            <div class="gallery-item" style="background-image: url('/Images/Galeri_OyunTest.jpg');"></div>
-            <div class="gallery-item wide" style="background-image: url('/Images/Galeri_EkipPozy.jpg');"></div>
+        
+        <div id="home-gallery-container" style="max-height: 550px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
+        </div>
+
+        <div style="position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center; z-index: 10;">
+            <a href="gallery.html" class="btn" style="padding: 15px 40px; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">Visit Full Gallery</a>
         </div>
     </section>
+
+    <style>
+        .dyn-category { margin-bottom: 40px; }
+        .dyn-title { font-size: 1.3rem; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
+        .dyn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; grid-auto-rows: 200px; }
+        .dyn-item { background-color: #2a2e37; border-radius: 10px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s; }
+        .dyn-item:hover { transform: scale(1.02); border-color: var(--accent); }
+
+        /* İLETİŞİM BALONCUĞU */
+        .chat-bubble-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 1001; transition: transform 0.3s; }
+        .chat-bubble-btn:hover { transform: scale(1.1); }
+        .contact-modal { position: fixed; bottom: 100px; right: 30px; width: 300px; background: var(--card-bg); border-radius: 15px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); z-index: 1001; display: none; opacity: 0; transition: opacity 0.3s ease;}
+        .contact-modal.active { display: block; opacity: 1; }
+        .contact-modal h4 { margin-bottom: 15px; color: var(--accent); }
+        .contact-modal input, .contact-modal textarea, .contact-modal select { width: 100%; margin-bottom: 10px; padding: 10px; background: #0f1115; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 5px; font-family: var(--font-main);}
+        .contact-modal button { width: 100%; }
+    </style>
+
+    <script>
+        const galleryConfig = [
+            { 
+                folder: "AydinGameJam", 
+                title: "Aydın Game Jam", 
+                images: ["Aydin1.jpeg", "Aydin2.jpg"] 
+            },
+            { 
+                folder: "RakunGameJam", 
+                title: "Rakun Game Jam", 
+                images: ["rakun1.jpg", "rakun2.jpg", "rakun3.jpg", "rakun4.jpg", "rakun5.jpeg", "rakun6.jpg", "rakun7.jpg"] 
+            },
+            { 
+                folder: "TeduGameJam", 
+                title: "TEDU Game Jam", 
+                images: ["tedu1.png", "tedu2.jpg", "tedu3.jpg", "tedu4.jpg", "tedu5.jpeg"]
+            },
+            { 
+                folder: "AkdenizGameJam", 
+                title: "Akdeniz Game Jam", 
+                images: ["akdeniz1.jpg", "akdeniz2.png", "akdeniz3.jpeg", "akdeniz4.jpeg", "akdeniz5.png"]
+            }
+        ];
+
+        function buildHomeGalleryPreview() {
+            const container = document.getElementById("home-gallery-container");
+            
+            galleryConfig.forEach(jam => {
+                // Eğer klasöre hiç resim ismi yazmadıysan o kategoriyi pas geç
+                if (jam.images.length === 0) return;
+
+                let catDiv = document.createElement("div");
+                catDiv.className = "dyn-category";
+                
+                let title = document.createElement("h3");
+                title.className = "dyn-title";
+                title.innerText = jam.title;
+                catDiv.appendChild(title);
+
+                let grid = document.createElement("div");
+                grid.className = "dyn-grid";
+
+                // Sadece ilk 2 resmi çeker (Eğer klasörde 1 resim varsa 1 tane çeker)
+                let previewCount = Math.min(2, jam.images.length);
+                for(let i = 0; i < previewCount; i++) {
+                    let imgDiv = document.createElement("div");
+                    imgDiv.className = "dyn-item";
+                    imgDiv.style.backgroundImage = `url('/Images/Galery/${jam.folder}/${jam.images[i]}')`;
+                    grid.appendChild(imgDiv);
+                }
+
+                catDiv.appendChild(grid);
+                container.appendChild(catDiv);
+            });
+        }
+        
+        document.addEventListener("DOMContentLoaded", buildHomeGalleryPreview);
+    </script>
 
     <div class="chat-bubble-btn" onclick="toggleContact()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
