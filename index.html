@@ -6,98 +6,352 @@
     <title>Team Calico</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* === TEMEL DEĞİŞKENLER VE SIFIRLAMA === */
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #1a1d24;
+            --bg-color: #100C09;
+            --card-bg: #1E1510;
+            --card-bg2: #231A13;
             --accent: #00ADB5;
-            --accent-glow: rgba(0, 173, 181, 0.4);
-            --gold: #FFD700;
-            --text-main: #eeeeee;
-            --text-muted: #a0a5b1;
+            --accent-glow: rgba(0, 173, 181, 0.35);
+            --calico-orange: #E8924A;
+            --calico-orange-glow: rgba(232, 146, 74, 0.3);
+            --calico-cream: #F5ECD7;
+            --calico-patch: rgba(232, 146, 74, 0.07);
+            --gold: #E8B84B;
+            --text-main: #F2EAE0;
+            --text-muted: #9A8A7A;
             --font-main: 'Poppins', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
+        /* === CALICO FUR TEXTURE OVERLAY === */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(ellipse at 15% 20%, rgba(232, 146, 74, 0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 75%, rgba(232, 146, 74, 0.05) 0%, transparent 35%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 173, 181, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body > * { position: relative; z-index: 1; }
+
         /* === NAVBAR === */
         header {
-            position: fixed; top: 0; width: 100%; padding: 20px 50px;
+            position: fixed; top: 0; width: 100%; padding: 18px 50px;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(15, 17, 21, 0.8); backdrop-filter: blur(10px);
-            z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(16, 12, 9, 0.88);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(232, 146, 74, 0.12);
         }
-        .logo img { height: 40px; transition: transform 0.3s; }
-        .logo img:hover { transform: scale(1.05); filter: drop-shadow(0 0 8px var(--accent-glow)); }
-        nav ul { display: flex; gap: 30px; }
-        nav ul li a { font-weight: 600; font-size: 0.9rem; transition: color 0.3s; }
-        nav ul li a:hover { color: var(--accent); }
 
-        /* === SECTIONS GENEL === */
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-wrap img {
+            height: 34px;
+            transition: transform 0.3s, filter 0.3s;
+            filter: drop-shadow(0 0 6px rgba(232, 146, 74, 0.3));
+        }
+        .logo-wrap:hover img {
+            transform: scale(1.08) rotate(-3deg);
+            filter: drop-shadow(0 0 10px var(--calico-orange-glow));
+        }
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            transition: color 0.3s;
+        }
+        .logo-wrap:hover .logo-text { color: var(--calico-orange); }
+
+        nav ul { display: flex; gap: 30px; }
+        nav ul li a {
+            font-weight: 600; font-size: 0.9rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--calico-orange);
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+        nav ul li a:hover { color: var(--calico-orange); }
+        nav ul li a:hover::after { width: 100%; }
+
+        /* === SECTIONS GENERAL === */
         section { padding: 100px 10%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; text-align: center; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px;}
-        .section-title span { color: var(--accent); }
+        .section-title {
+            font-size: 2.5rem; font-weight: 800; margin-bottom: 20px;
+            text-align: center; color: var(--text-main);
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .section-title span { color: var(--calico-orange); }
 
         /* === HERO SECTION === */
-        #hero { align-items: center; text-align: center; background: radial-gradient(circle at center, #1a1d24 0%, #0f1115 100%); }
-        #hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 20px; text-shadow: 0 0 20px rgba(0,0,0,0.5); line-height: 1.2;}
-        #hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 600px; }
-        .btn { padding: 15px 30px; background: var(--accent); color: #fff; font-weight: 600; border-radius: 30px; transition: all 0.3s ease; display: inline-block; cursor: pointer; border: none;}
-        .btn:hover { background: #00c9d2; transform: translateY(-3px); box-shadow: 0 10px 20px var(--accent-glow); }
+        #hero {
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('/Images/OtherImages/CalicoMainPhoto.png');
+            background-size: cover;
+            background-position: center top;
+            filter: blur(7px) brightness(0.28) saturate(0.8);
+            transform: scale(1.06);
+            z-index: 0;
+        }
+        #hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 40%, rgba(232, 146, 74, 0.10) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 60%, rgba(0, 0, 0, 0.5) 0%, transparent 55%),
+                linear-gradient(to bottom, rgba(16, 12, 9, 0.2) 0%, rgba(16, 12, 9, 0.7) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        #hero > * { position: relative; z-index: 2; }
+
+        #hero h1 {
+            font-size: 4.2rem; font-weight: 800; margin-bottom: 20px;
+            line-height: 1.15;
+            text-shadow: 0 2px 30px rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--calico-cream) 50%, var(--calico-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #hero p {
+            font-size: 1.2rem; color: rgba(245, 236, 215, 0.85);
+            margin-bottom: 40px; max-width: 600px;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.6);
+        }
+
+        /* === BUTTONS === */
+        .btn {
+            padding: 14px 30px;
+            background: linear-gradient(135deg, var(--calico-orange), #D4763B);
+            color: #fff;
+            font-weight: 600; border-radius: 30px;
+            transition: all 0.3s ease;
+            display: inline-block; cursor: pointer; border: none;
+            box-shadow: 0 4px 15px rgba(232, 146, 74, 0.3);
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #F0A05A, var(--calico-orange));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(232, 146, 74, 0.45);
+        }
+
+        /* === CALICO PAW DIVIDER === */
+        .paw-divider {
+            text-align: center;
+            margin: 10px 0 30px;
+            opacity: 0.35;
+            font-size: 1.2rem;
+            letter-spacing: 12px;
+        }
 
         /* === ABOUT US & TIMELINE === */
-        .about-text { max-width: 800px; margin: 0 auto 50px auto; text-align: center; color: var(--text-muted); font-size: 1.1rem; }
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-left: 30px; border-left: 3px solid var(--accent); }
-        .timeline-item { position: relative; margin-bottom: 40px; padding: 20px; background: var(--card-bg); border-radius: 10px; transition: transform 0.3s; }
-        .timeline-item:hover { transform: translateX(10px); }
-        .timeline-item::before { content: ''; position: absolute; left: -39px; top: 20px; width: 16px; height: 16px; border-radius: 50%; background: var(--gold); border: 4px solid var(--bg-color); }
-        .timeline-item h3 { color: var(--gold); font-size: 1.5rem; margin-bottom: 10px; }
-        .timeline-item h4 { font-size: 1.1rem; margin-bottom: 10px; color: var(--text-main); }
+        .about-text {
+            max-width: 800px; margin: 0 auto 50px auto;
+            text-align: center; color: var(--text-muted); font-size: 1.1rem;
+        }
+        .timeline {
+            position: relative; max-width: 800px; margin: 0 auto;
+            padding-left: 30px;
+            border-left: 3px solid var(--calico-orange);
+        }
+        .timeline-item {
+            position: relative; margin-bottom: 40px; padding: 22px 22px 18px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            transition: transform 0.3s;
+            border: 1px solid rgba(232, 146, 74, 0.08);
+        }
+        .timeline-item:hover { transform: translateX(10px); border-color: rgba(232, 146, 74, 0.25); }
+        .timeline-item::before {
+            content: '';
+            position: absolute; left: -39px; top: 20px;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: var(--calico-orange);
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 0 8px var(--calico-orange-glow);
+        }
+        .timeline-item:nth-child(2)::before { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+        .timeline-item:nth-child(3)::before { background: var(--calico-cream); box-shadow: none; }
+        .timeline-item h3 { color: var(--calico-orange); font-size: 1.5rem; margin-bottom: 8px; }
+        .timeline-item:nth-child(2) h3 { color: var(--accent); }
+        .timeline-item h4 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text-main); }
         .timeline-item p { color: var(--text-muted); font-size: 0.9rem; }
 
-        /* === OYUNLARIMIZ === */
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .game-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.05); }
-        .game-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.4); border-color: var(--accent); }
-        .game-img { width: 100%; height: 200px; background-color: #2a2e37; background-size: cover; background-position: center; }
-        .game-info { padding: 25px; }
-        .game-info h3 { font-size: 1.3rem; margin-bottom: 10px; }
-        .game-info .btn { padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; }
+        /* === GAMES === */
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 16px; overflow: hidden;
+            transition: all 0.35s;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+        .game-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--calico-orange), var(--accent), var(--calico-orange));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .game-card:hover { transform: translateY(-10px); box-shadow: 0 18px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,146,74,0.2); }
+        .game-card:hover::after { opacity: 1; }
+        .game-img { width: 100%; height: 200px; background-color: #2a1e14; background-size: cover; background-position: center; }
+        .game-info { padding: 22px; }
+        .game-info h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--calico-cream); }
+        .game-info p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 5px; }
+        .game-info .btn { padding: 9px 22px; font-size: 0.82rem; margin-top: 14px; }
 
-        /* === TAKIM KÖKLERİ === */
+        /* === TEAM / CALICO ROOTS === */
         #team { text-align: center; }
         .team-tree { position: relative; margin-top: 20px; }
-        .root-logo { width: 100px; height: 100px; margin: 0 auto 20px auto; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow); z-index: 2; position: relative;}
+        .root-logo {
+            width: 100px; height: 100px; margin: 0 auto 20px auto;
+            background: var(--card-bg);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            border: 2px solid var(--calico-orange);
+            box-shadow: 0 0 25px var(--calico-orange-glow);
+            z-index: 2; position: relative;
+        }
         .root-logo img { width: 60px; }
-        .roots-svg { position: absolute; top: 100px; left: 0; width: 100%; height: 150px; z-index: 1; pointer-events: none;}
-        .roots-svg path { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 10; animation: rootsMove 20s linear infinite; opacity: 0.5;}
+        .roots-svg { position: absolute; top: 100px; left: 0; width: 100%; height: 150px; z-index: 1; pointer-events: none; }
+        .roots-svg path { fill: none; stroke: var(--calico-orange); stroke-width: 2; stroke-dasharray: 10; animation: rootsMove 20s linear infinite; opacity: 0.35; }
         @keyframes rootsMove { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 1000; } }
-        
-        .team-members { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-top: 150px; position: relative; z-index: 2;}
-        .member-card { flex: 1; min-width: 180px; background: var(--card-bg); padding: 30px 20px; border-radius: 15px; border-top: 3px solid var(--accent); transition: all 0.3s; }
-        .member-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .member-photo { width: 100px; height: 100px; border-radius: 50%; background-color: #2a2e37; margin: 0 auto 15px auto; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); background-size: cover; background-position: center;}
-        .member-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
-        .member-role { font-size: 0.8rem; color: var(--accent); margin-bottom: 15px; }
+
+        .team-members { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-top: 150px; position: relative; z-index: 2; }
+        .member-card {
+            flex: 1; min-width: 180px;
+            background: var(--card-bg);
+            padding: 30px 20px; border-radius: 16px;
+            border-top: 3px solid var(--calico-orange);
+            transition: all 0.3s;
+        }
+        .member-card:nth-child(2n) { border-top-color: var(--accent); }
+        .member-card:nth-child(3n) { border-top-color: var(--calico-cream); }
+        .member-card:hover { transform: translateY(-10px); box-shadow: 0 12px 28px rgba(0,0,0,0.5); }
+        .member-photo {
+            width: 100px; height: 100px; border-radius: 50%;
+            background-color: #2a1e14; margin: 0 auto 15px auto;
+            overflow: hidden;
+            border: 2px solid rgba(232, 146, 74, 0.2);
+            background-size: cover; background-position: center;
+        }
+        .member-name { font-weight: 600; font-size: 1.05rem; margin-bottom: 4px; color: var(--calico-cream); }
+        .member-role { font-size: 0.8rem; color: var(--calico-orange); margin-bottom: 12px; }
+
+        /* === GALLERY === */
+        .dyn-category { margin-bottom: 40px; }
+        .dyn-title {
+            font-size: 1.3rem; color: var(--gold); margin-bottom: 15px;
+            border-bottom: 1px solid rgba(232, 146, 74, 0.15);
+            padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .dyn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; grid-auto-rows: 200px; }
+        .dyn-item {
+            background-color: #2a1e14; border-radius: 10px;
+            background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .dyn-item:hover { transform: scale(1.02); border-color: var(--calico-orange); }
+
+        /* === CONTACT BUBBLE === */
+        .chat-bubble-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--calico-orange), #D4763B);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 0 5px 20px rgba(232, 146, 74, 0.4);
+            z-index: 1001; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .chat-bubble-btn:hover { transform: scale(1.12); box-shadow: 0 8px 25px rgba(232, 146, 74, 0.55); }
+        .contact-modal {
+            position: fixed; bottom: 100px; right: 30px; width: 300px;
+            background: var(--card-bg); border-radius: 16px; padding: 22px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+            border: 1px solid rgba(232, 146, 74, 0.15);
+            z-index: 1001; display: none; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .contact-modal.active { display: block; opacity: 1; }
+        .contact-modal h4 { margin-bottom: 15px; color: var(--calico-orange); font-size: 1.05rem; }
+        .contact-modal input,
+        .contact-modal textarea,
+        .contact-modal select {
+            width: 100%; margin-bottom: 10px; padding: 10px;
+            background: #0f0b08; border: 1px solid rgba(232, 146, 74, 0.15);
+            color: var(--text-main); border-radius: 8px;
+            font-family: var(--font-main); outline: none;
+            transition: border-color 0.3s;
+        }
+        .contact-modal input:focus,
+        .contact-modal textarea:focus,
+        .contact-modal select:focus { border-color: var(--calico-orange); }
+        .contact-modal button { width: 100%; }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--calico-orange); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #F0A05A; }
 
         @media (max-width: 768px) {
-            header { padding: 20px; flex-direction: column; gap: 15px; }
+            header { padding: 16px 20px; flex-direction: column; gap: 14px; }
             section { padding: 120px 5%; }
-            #hero h1 { font-size: 2.5rem; }
+            #hero h1 { font-size: 2.6rem; }
             .team-members { margin-top: 100px; flex-direction: column; }
             .roots-svg { display: none; }
+            .logo-text { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Meow sound -->
+    <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
+
     <header>
-        <div class="logo">
-            <a href="#hero"><img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico Logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
-        </div>
+        <a href="#hero" class="logo-wrap" id="logo-link">
+            <img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico Logo" onerror="this.style.display='none'">
+            <span class="logo-text">TEAM CALICO</span>
+        </a>
         <nav>
             <ul>
                 <li><a href="#about">About Us</a></li>
@@ -111,11 +365,12 @@
     <section id="hero">
         <h1>TEAM CALICO</h1>
         <p>An independent game development studio forged in Game Jams.</p>
-        <a href="#games" class="btn">Explore Our Games</a>
+        <a href="#games" class="btn meow-btn">Explore Our Games</a>
     </section>
 
     <section id="about">
         <h2 class="section-title">About <span>Us</span></h2>
+        <div class="paw-divider">🐾 🐾 🐾</div>
         <p class="about-text">Team Calico is a strong, highly collaborative studio formed by talented individuals from various disciplines who met at Game Jams. Driven by a shared passion for game development, we are constantly evolving and highly open to new collaborations.</p>
         
         <div class="timeline">
@@ -125,7 +380,7 @@
                 <p>Awarded 1st place with our action-roguelike game, <strong>MirrorBlade</strong>.</p>
             </div>
             <div class="timeline-item">
-                <h3>2nd Place & Best Sound Design</h3>
+                <h3>2nd Place &amp; Best Sound Design</h3>
                 <h4>Rakun Game Jam</h4>
                 <p>Achieved 2nd place overall and won the Best Sound Design award with our project, <strong>Not a piece of cake</strong>.</p>
             </div>
@@ -139,55 +394,51 @@
 
     <section id="games">
         <h2 class="section-title">Our <span>Games</span></h2>
+        <div class="paw-divider">🐾 🐾 🐾</div>
         <div class="games-grid">
-            
             <div class="game-card">
                 <div class="game-img" style="background-image: url('/Images/OtherImages/Game_Cake_Card.png');"></div>
                 <div class="game-info">
                     <h3>Not a piece of cake</h3>
-                    <p>Rakun Game Jam 2nd Place & Best Sound Design winning atmospheric adventure.</p>
-                    <a href="cake.html" class="btn">Play / Details</a>
+                    <p>Rakun Game Jam 2nd Place &amp; Best Sound Design winning atmospheric adventure.</p>
+                    <a href="cake.html" class="btn meow-btn">Play / Details</a>
                 </div>
             </div>
-
             <div class="game-card">
                 <div class="game-img" style="background-image: url('/Images/OtherImages/Game_MirrorBlade_Card.png');"></div>
                 <div class="game-info">
                     <h3>MirrorBlade</h3>
                     <p>Aydın Game Jam 1st Place winning action and reflex-focused game.</p>
-                    <a href="mirrorblade.html" class="btn">Play / Details</a>
+                    <a href="mirrorblade.html" class="btn meow-btn">Play / Details</a>
                 </div>
             </div>
-
             <div class="game-card">
                 <div class="game-img" style="background-image: url('/Images/OtherImages/Game_Otis_Card.png');"></div>
                 <div class="game-info">
-                    <h3>Oti's Journal Prince in pieces</h3>
+                    <h3>Oti's Journal: Prince in pieces</h3>
                     <p>Navigate through the dark journal pages of a shattered story.</p>
-                    <a href="otis.html" class="btn">Play / Details</a>
+                    <a href="otis.html" class="btn meow-btn">Play / Details</a>
                 </div>
             </div>
-
             <div class="game-card">
                 <div class="game-img" style="background-image: url('/Images/OtherImages/Game_MToys_Card.png');"></div>
                 <div class="game-info">
                     <h3>M'Toys</h3>
                     <p>A fun, dynamic, and immersive experience filled with toys.</p>
-                    <a href="mtoys.html" class="btn">Play / Details</a>
+                    <a href="mtoys.html" class="btn meow-btn">Play / Details</a>
                 </div>
             </div>
-
         </div>
     </section>
 
     <section id="team">
         <h2 class="section-title">Calico <span>Roots</span></h2>
-        
+        <div class="paw-divider">🐾 🐾 🐾</div>
+
         <div class="team-tree">
             <div class="root-logo">
-                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%230f1115%22/><text x=%2235%22 y=%2255%22 fill=%22%2300ADB5%22 font-size=%2220%22>C</text></svg>'">
+                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%221E1510%22/><text x=%2228%22 y=%2258%22 fill=%22%23E8924A%22 font-size=%2232%22>🐱</text></svg>'">
             </div>
-            
             <svg class="roots-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
                 <path d="M500,0 C500,100 100,100 100,200" />
                 <path d="M500,0 C500,100 300,100 300,200" />
@@ -195,32 +446,27 @@
                 <path d="M500,0 C500,100 700,100 700,200" />
                 <path d="M500,0 C500,100 900,100 900,200" />
             </svg>
-
             <div class="team-members">
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Efe.jpeg');"></div>
                     <div class="member-name">Efe Görkem Akkanat</div>
                     <div class="member-role">Developer / Pixel Artist</div>
                 </div>
-
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Rana.png');"></div>
                     <div class="member-name">Rana Demir</div>
                     <div class="member-role">Developer / 3D Designer</div>
                 </div>
-
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Dilay.png');"></div>
                     <div class="member-name">Dilay Kocacık</div>
-                    <div class="member-role">Art & Design</div>
+                    <div class="member-role">Art &amp; Design</div>
                 </div>
-
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_EfeRe.jpg');"></div>
                     <div class="member-name">Reşat Efe Koca</div>
                     <div class="member-role">Pixel Artist / Developer</div>
                 </div>
-
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Gorkem.jpg');"></div>
                     <div class="member-name">Görkem Altıntaş</div>
@@ -232,93 +478,20 @@
 
     <section id="gallery" style="position: relative; padding-bottom: 120px;">
         <h2 class="section-title">Behind the <span>Scenes</span></h2>
-        
-        <div id="home-gallery-container" style="max-height: 550px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
-        </div>
+        <div class="paw-divider">🐾 🐾 🐾</div>
+
+        <div id="home-gallery-container" style="max-height: 550px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); mask-image: linear-gradient(to bottom, black 50%, transparent 100%);"></div>
 
         <div style="position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center; z-index: 10;">
-            <a href="gallery.html" class="btn" style="padding: 15px 40px; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">Visit Full Gallery</a>
+            <a href="gallery.html" class="btn meow-btn" style="padding: 15px 40px; font-size: 1.05rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">Visit Full Gallery</a>
         </div>
     </section>
 
-    <style>
-        .dyn-category { margin-bottom: 40px; }
-        .dyn-title { font-size: 1.3rem; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
-        .dyn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; grid-auto-rows: 200px; }
-        .dyn-item { background-color: #2a2e37; border-radius: 10px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s; }
-        .dyn-item:hover { transform: scale(1.02); border-color: var(--accent); }
-
-        /* İLETİŞİM BALONCUĞU */
-        .chat-bubble-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 1001; transition: transform 0.3s; }
-        .chat-bubble-btn:hover { transform: scale(1.1); }
-        .contact-modal { position: fixed; bottom: 100px; right: 30px; width: 300px; background: var(--card-bg); border-radius: 15px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); z-index: 1001; display: none; opacity: 0; transition: opacity 0.3s ease;}
-        .contact-modal.active { display: block; opacity: 1; }
-        .contact-modal h4 { margin-bottom: 15px; color: var(--accent); }
-        .contact-modal input, .contact-modal textarea, .contact-modal select { width: 100%; margin-bottom: 10px; padding: 10px; background: #0f1115; border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 5px; font-family: var(--font-main);}
-        .contact-modal button { width: 100%; }
-    </style>
-
-    <script>
-        const galleryConfig = [
-            { 
-                folder: "RakunGameJam", 
-                title: "Rakun Game Jam", 
-                images: ["rakun1.jpg", "rakun2.jpg", "rakun3.jpg", "rakun4.jpg", "rakun5.jpeg", "rakun6.jpg", "rakun7.jpg"] 
-            },
-            { 
-                folder: "TeduGameJam", 
-                title: "TEDU Game Jam", 
-                images: ["tedu1.png", "tedu2.jpg", "tedu3.jpg", "tedu4.jpg", "tedu5.jpeg"]
-            },
-            { 
-                folder: "AkdenizGameJam", 
-                title: "Akdeniz Game Jam", 
-                images: ["akdeniz1.jpeg", "akdeniz2.jpeg", "akdeniz5.png"]
-            },
-            { 
-                folder: "AydinGameJam", 
-                title: "Aydın Game Jam", 
-                images: ["Aydin1.jpeg", "Aydin2.jpg"] 
-            }
-        ];
-
-        function buildHomeGalleryPreview() {
-            const container = document.getElementById("home-gallery-container");
-            
-            galleryConfig.forEach(jam => {
-                // Eğer klasöre hiç resim ismi yazmadıysan o kategoriyi pas geç
-                if (jam.images.length === 0) return;
-
-                let catDiv = document.createElement("div");
-                catDiv.className = "dyn-category";
-                
-                let title = document.createElement("h3");
-                title.className = "dyn-title";
-                title.innerText = jam.title;
-                catDiv.appendChild(title);
-
-                let grid = document.createElement("div");
-                grid.className = "dyn-grid";
-
-                // Sadece ilk 2 resmi çeker (Eğer klasörde 1 resim varsa 1 tane çeker)
-                let previewCount = Math.min(2, jam.images.length);
-                for(let i = 0; i < previewCount; i++) {
-                    let imgDiv = document.createElement("div");
-                    imgDiv.className = "dyn-item";
-                    imgDiv.style.backgroundImage = `url('/Images/Galery/${jam.folder}/${jam.images[i]}')`;
-                    grid.appendChild(imgDiv);
-                }
-
-                catDiv.appendChild(grid);
-                container.appendChild(catDiv);
-            });
-        }
-        
-        document.addEventListener("DOMContentLoaded", buildHomeGalleryPreview);
-    </script>
-
     <div class="chat-bubble-btn" onclick="toggleContact()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
     </div>
 
     <div class="contact-modal" id="contactModal">
@@ -332,11 +505,55 @@
             <input type="text" name="name" placeholder="Name / Company" required>
             <input type="email" name="email" placeholder="Email Address" required>
             <textarea name="message" placeholder="Your Message..." rows="4" required></textarea>
-            <button type="submit" class="btn">Send</button>
+            <button type="submit" class="btn meow-btn">Send</button>
         </form>
     </div>
 
     <script>
+        /* === MEOW SOUND === */
+        const meowSfx = document.getElementById('meow-sfx');
+        function playMeow() {
+            meowSfx.currentTime = 0;
+            meowSfx.play().catch(() => {});
+        }
+        document.getElementById('logo-link').addEventListener('click', playMeow);
+        document.querySelectorAll('.meow-btn').forEach(btn => {
+            btn.addEventListener('click', playMeow);
+        });
+
+        /* === GALLERY BUILD === */
+        const galleryConfig = [
+            { folder: "RakunGameJam",   title: "Rakun Game Jam",   images: ["rakun1.jpg","rakun2.jpg","rakun3.jpg","rakun4.jpg","rakun5.jpeg","rakun6.jpg","rakun7.jpg"] },
+            { folder: "TeduGameJam",    title: "TEDU Game Jam",    images: ["tedu1.png","tedu2.jpg","tedu3.jpg","tedu4.jpg","tedu5.jpeg"] },
+            { folder: "AkdenizGameJam", title: "Akdeniz Game Jam", images: ["akdeniz1.jpeg","akdeniz2.jpeg","akdeniz5.png"] },
+            { folder: "AydinGameJam",   title: "Aydın Game Jam",   images: ["Aydin1.jpeg","Aydin2.jpg"] }
+        ];
+        function buildHomeGalleryPreview() {
+            const container = document.getElementById("home-gallery-container");
+            galleryConfig.forEach(jam => {
+                if (jam.images.length === 0) return;
+                let catDiv = document.createElement("div");
+                catDiv.className = "dyn-category";
+                let title = document.createElement("h3");
+                title.className = "dyn-title";
+                title.innerText = jam.title;
+                catDiv.appendChild(title);
+                let grid = document.createElement("div");
+                grid.className = "dyn-grid";
+                let previewCount = Math.min(2, jam.images.length);
+                for (let i = 0; i < previewCount; i++) {
+                    let imgDiv = document.createElement("div");
+                    imgDiv.className = "dyn-item";
+                    imgDiv.style.backgroundImage = `url('/Images/Galery/${jam.folder}/${jam.images[i]}')`;
+                    grid.appendChild(imgDiv);
+                }
+                catDiv.appendChild(grid);
+                container.appendChild(catDiv);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", buildHomeGalleryPreview);
+
+        /* === CONTACT MODAL === */
         function toggleContact() {
             const modal = document.getElementById('contactModal');
             if (modal.classList.contains('active')) {
@@ -347,10 +564,13 @@
                 setTimeout(() => modal.style.opacity = '1', 10);
             }
         }
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+
+        /* === SMOOTH SCROLL === */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
