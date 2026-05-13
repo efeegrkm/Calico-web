@@ -7,94 +7,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #1a1d24;
+            --bg-color: #100C09;
+            --card-bg: #1E1510;
+            --card-bg2: #231A13;
             --accent: #00ADB5;
-            --text-main: #eeeeee;
-            --text-muted: #a0a5b1;
+            --calico-orange: #E8924A;
+            --calico-cream: #F5ECD7;
+            --gold: #E8B84B;
+            --text-main: #F2EAE0;
+            --text-muted: #9A8A7A;
             --font-main: 'Poppins', sans-serif;
-            --gold: #FFD700;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden;}
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
         a { text-decoration: none; color: inherit; }
 
-        header { padding: 20px 50px; background: rgba(15, 17, 21, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;}
-        .logo img { height: 40px; transition: transform 0.3s;}
-        .logo img:hover { transform: scale(1.05); }
-        .back-btn { font-weight: 600; font-size: 0.9rem; transition: color 0.3s; }
-        .back-btn:hover { color: var(--accent); }
+        /* CALICO FUR TEXTURE OVERLAY */
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: 
+                radial-gradient(ellipse at 15% 20%, rgba(232, 146, 74, 0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 75%, rgba(232, 146, 74, 0.05) 0%, transparent 35%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 173, 181, 0.03) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
+        }
+        body > * { position: relative; z-index: 1; }
 
-        .gallery-page-container { padding: 60px 10%; max-width: 1600px; margin: 0 auto; min-height: 100vh;}
+        /* NAVBAR */
+        header { position: fixed; top: 0; width: 100%; padding: 18px 50px; display: flex; justify-content: space-between; align-items: center; background: rgba(16, 12, 9, 0.88); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid rgba(232, 146, 74, 0.12); }
+        .logo-wrap { display: flex; align-items: center; gap: 11px; cursor: pointer; text-decoration: none; color: inherit; }
+        .logo-wrap img { height: 34px; transition: transform 0.3s, filter 0.3s; filter: drop-shadow(0 0 6px rgba(232, 146, 74, 0.3)); }
+        .logo-wrap:hover img { transform: scale(1.08) rotate(-3deg); filter: drop-shadow(0 0 10px rgba(232, 146, 74, 0.5)); }
+        .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: 2px; color: var(--text-main); transition: color 0.3s; }
+        .logo-wrap:hover .logo-text { color: var(--calico-orange); }
+
+        .back-btn { font-weight: 600; font-size: 0.9rem; transition: color 0.3s; cursor: pointer;}
+        .back-btn:hover { color: var(--calico-orange); }
+
+        .gallery-page-container { padding: 120px 10% 60px; max-width: 1600px; margin: 0 auto; min-height: 100vh;}
         .page-header { text-align: center; margin-bottom: 60px; }
-        .page-header h1 { font-size: 3rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px;}
+        .page-header h1 { font-size: 3rem; color: var(--calico-orange); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
         .page-header p { color: var(--text-muted); font-size: 1.1rem;}
 
-        /* Tam Galeri Stilleri */
+        .paw-divider { text-align: center; margin: 10px 0 30px; opacity: 0.35; font-size: 1.2rem; letter-spacing: 12px; }
+
+        /* FULL GALLERY STYLES */
         .full-category { margin-bottom: 80px; }
-        .full-title { font-size: 2rem; color: var(--gold); border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 30px; }
+        .full-title { font-size: 2rem; color: var(--gold); border-bottom: 1px solid rgba(232, 146, 74, 0.15); padding-bottom: 10px; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;}
         .full-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; grid-auto-rows: 250px; grid-auto-flow: dense;}
         
-        .full-item { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; cursor: pointer;}
-        .full-item:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.5); border-color: var(--accent); z-index: 2;}
+        .full-item { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; background-size: cover; background-position: center; border: 1px solid rgba(232, 146, 74, 0.08); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer;}
+        .full-item:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); border-color: var(--calico-orange); z-index: 2;}
         
-        /* Çeşitlilik katmak için yatay/dikey büyüklük sınıfları */
         .wide { grid-column: span 2; }
         .tall { grid-row: span 2; }
 
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--calico-orange); border-radius: 3px; }
+
         @media (max-width: 768px) {
-            header { padding: 20px; flex-direction: column; gap: 15px; }
+            header { padding: 16px 20px; flex-direction: column; gap: 14px; }
             .wide, .tall { grid-column: span 1; grid-row: span 1; }
         }
     </style>
 </head>
 <body>
 
+    <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
+
     <header>
-        <div class="logo">
-            <a href="index.html"><img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
-        </div>
-        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+        <a href="index.html" class="logo-wrap meow-btn">
+            <img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico" onerror="this.style.display='none'">
+            <span class="logo-text">TEAM CALICO</span>
+        </a>
+        <a href="index.html" class="back-btn meow-btn">&larr; Back to Home</a>
     </header>
 
     <div class="gallery-page-container">
         <div class="page-header">
             <h1>Calico Archives</h1>
             <p>Behind the scenes, game jams, and our development journey.</p>
+            <div class="paw-divider">🐾 🐾 🐾</div>
         </div>
 
         <div id="full-gallery-root"></div>
     </div>
 
     <script>
-        // === DİNAMİK GALERİ AYARLARI ===
+        const meowSfx = document.getElementById('meow-sfx');
+        function playMeow() { meowSfx.currentTime = 0; meowSfx.play().catch(() => {}); }
+        document.querySelectorAll('.meow-btn').forEach(btn => { btn.addEventListener('click', playMeow); });
+
         const galleryConfig = [
-            { 
-                folder: "RakunGameJam", 
-                title: "Rakun Game Jam", 
-                images: ["rakun1.jpg", "rakun2.jpg", "rakun3.jpg", "rakun4.jpg", "rakun5.jpeg", "rakun6.jpg", "rakun7.jpg"] 
-            },
-            { 
-                folder: "TeduGameJam", 
-                title: "TEDU Game Jam", 
-                images: ["tedu1.png", "tedu2.jpg", "tedu3.jpg", "tedu4.jpg", "tedu5.jpeg"]
-            },
-            { 
-                folder: "AkdenizGameJam", 
-                title: "Akdeniz Game Jam", 
-                images: ["akdeniz1.jpeg", "akdeniz2.jpeg", "akdeniz3.jpeg", "akdeniz4.jpeg", "akdeniz5.png"]
-            },
-            { 
-                folder: "AydinGameJam", 
-                title: "Aydın Game Jam", 
-                images: ["Aydin1.jpeg", "Aydin2.jpg"] 
-            }
+            { folder: "RakunGameJam",   title: "Rakun Game Jam",   images: ["rakun1.jpg","rakun2.jpg","rakun3.jpg","rakun4.jpg","rakun5.jpeg","rakun6.jpg","rakun7.jpg"] },
+            { folder: "TeduGameJam",    title: "TEDU Game Jam",    images: ["tedu1.png","tedu2.jpg","tedu3.jpg","tedu4.jpg","tedu5.jpeg"] },
+            { folder: "AkdenizGameJam", title: "Akdeniz Game Jam", images: ["akdeniz1.jpeg","akdeniz2.jpeg","akdeniz5.png"] },
+            { folder: "AydinGameJam",   title: "Aydın Game Jam",   images: ["Aydin1.jpeg","Aydin2.jpg"] }
         ];
 
         function buildFullGallery() {
             const container = document.getElementById("full-gallery-root");
-            
             galleryConfig.forEach(jam => {
                 if (jam.images.length === 0) return;
 
@@ -109,26 +124,20 @@
                 let grid = document.createElement("div");
                 grid.className = "full-grid";
 
-                // O klasördeki tüm resimleri döngüyle basıyoruz
                 for(let i = 0; i < jam.images.length; i++) {
                     let imgDiv = document.createElement("div");
-                    
-                    // Masonry (Düzensiz Duvar) görünümü için bazı resimleri geniş veya uzun yapıyoruz
                     let extraClass = "";
-                    if((i + 1) % 5 === 0) extraClass = "wide"; // Her 5. resim yatay uzun
-                    else if ((i + 1) % 4 === 0) extraClass = "tall"; // Her 4. resim dikey uzun
+                    if((i + 1) % 5 === 0) extraClass = "wide"; 
+                    else if ((i + 1) % 4 === 0) extraClass = "tall"; 
                     
                     imgDiv.className = `full-item ${extraClass}`;
                     imgDiv.style.backgroundImage = `url('/Images/Galery/${jam.folder}/${jam.images[i]}')`;
-                    
                     grid.appendChild(imgDiv);
                 }
-
                 catDiv.appendChild(grid);
                 container.appendChild(catDiv);
             });
         }
-        
         document.addEventListener("DOMContentLoaded", buildFullGallery);
     </script>
 </body>

@@ -6,93 +6,89 @@
     <title>Not a piece of cake - Team Calico</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0f1115;
-            --card-bg: #1a1d24;
-            --accent: #00ADB5;
-            --text-main: #eeeeee;
-            --text-muted: #a0a5b1;
-            --font-main: 'Poppins', sans-serif;
-        }
-
+        :root { --bg-color: #100C09; --card-bg: #1E1510; --card-bg2: #231A13; --accent: #00ADB5; --calico-orange: #E8924A; --calico-cream: #F5ECD7; --gold: #E8B84B; --text-main: #F2EAE0; --text-muted: #9A8A7A; --font-main: 'Poppins', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden;}
         a { text-decoration: none; color: inherit; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(ellipse at 15% 20%, rgba(232, 146, 74, 0.06) 0%, transparent 40%), radial-gradient(ellipse at 85% 75%, rgba(232, 146, 74, 0.05) 0%, transparent 35%); pointer-events: none; z-index: 0; }
+        body > * { position: relative; z-index: 1; }
 
-        header { padding: 20px 50px; background: rgba(15, 17, 21, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .back-btn { font-weight: 600; font-size: 0.9rem; color: var(--text-main); transition: color 0.3s; }
-        .back-btn:hover { color: var(--accent); }
+        header { position: fixed; top: 0; width: 100%; padding: 18px 50px; display: flex; justify-content: space-between; align-items: center; background: rgba(16, 12, 9, 0.88); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid rgba(232, 146, 74, 0.12); }
+        .logo-wrap { display: flex; align-items: center; gap: 11px; cursor: pointer; text-decoration: none; }
+        .logo-wrap img { height: 34px; filter: drop-shadow(0 0 6px rgba(232, 146, 74, 0.3)); transition: 0.3s;}
+        .logo-wrap:hover img { transform: scale(1.08) rotate(-3deg); }
+        .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: 2px; color: var(--text-main); transition: 0.3s; }
+        .logo-wrap:hover .logo-text { color: var(--calico-orange); }
+        .back-btn { font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
+        .back-btn:hover { color: var(--calico-orange); }
 
-        .game-container { padding: 40px 10%; max-width: 1400px; margin: 0 auto; }
+        .game-container { padding: 120px 10% 40px; max-width: 1400px; margin: 0 auto; }
+        .webgl-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; margin-bottom: 40px; border: 2px solid rgba(232,146,74,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow: hidden;}
         
-        .webgl-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--card-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; position: relative;}
-        
-        .game-content { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
-        @media (max-width: 900px) { .game-content { grid-template-columns: 1fr; } }
-
-        .details h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; }
-        .details h3 { margin-top: 30px; margin-bottom: 10px; color: #fff; font-size: 1.3rem; border-bottom: 2px solid var(--card-bg); padding-bottom: 5px;}
+        .details { background: var(--card-bg); padding: 40px; border-radius: 16px; border-left: 5px solid var(--calico-orange); margin-bottom: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.4);}
+        .details h1 { font-size: 2.5rem; color: var(--calico-orange); margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
+        .details h3 { margin-top: 30px; margin-bottom: 10px; color: var(--calico-cream); font-size: 1.3rem; border-bottom: 1px solid rgba(232,146,74,0.15); padding-bottom: 5px;}
         .details p { color: var(--text-muted); margin-bottom: 15px; }
         .details ul { list-style-position: inside; color: var(--text-muted); margin-bottom: 15px; }
         .details li { margin-bottom: 8px; }
-        .details strong { color: #fff; }
+        .details strong { color: var(--text-main); }
 
-        .media-gallery { display: flex; flex-direction: column; gap: 20px; }
-        .media-img { width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
-        .media-img:hover { transform: scale(1.02); border-color: var(--accent); }
+        .media-gallery { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 15px; scrollbar-width: thin; scrollbar-color: var(--calico-orange) var(--card-bg2); }
+        ::-webkit-scrollbar { height: 8px; width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--calico-orange); border-radius: 4px; }
+        
+        .media-img { height: 280px; width: auto; border-radius: 12px; border: 1px solid rgba(232,146,74,0.15); flex-shrink: 0; transition: transform 0.3s; }
+        .media-img:hover { transform: scale(1.02); border-color: var(--calico-orange); }
+        @media (max-width: 768px) { header { padding: 16px 20px; flex-direction: column; gap: 14px; } .game-container { padding-top: 140px; } }
     </style>
 </head>
 <body>
+    <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
 
     <header>
-        <div class="logo">
-            <a href="index.html"><img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
-        </div>
-        <a href="index.html#games" class="back-btn">&larr; Back to Games</a>
+        <a href="index.html" class="logo-wrap meow-btn">
+            <img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico" onerror="this.style.display='none'">
+            <span class="logo-text">TEAM CALICO</span>
+        </a>
+        <a href="index.html#games" class="back-btn meow-btn">&larr; Back to Games</a>
     </header>
 
     <div class="game-container">
-        
         <div class="webgl-wrapper">
-            <iframe 
-                src="Games/NotAPieceOfCake/index.html" 
-                width="100%" 
-                height="100%" 
-                frameborder="0" 
-                scrolling="no" 
-                allowfullscreen="true"
-                style="border: none;">
-            </iframe>
+            <iframe src="Games/NotAPieceOfCake/index.html" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" style="border: none;"></iframe>
         </div>
 
-        <div class="game-content">
-            <div class="details">
-                <h1>Not a piece of cake</h1>
-                <p>An innovative, fast-paced tactical board game set on a dynamic circular grid. Awarded <strong>2nd Place and Best Sound Design</strong> at the Rakun Game Jam, this game challenges you to outsmart your opponent in a race to find the hidden treasure.</p>
+        <div class="details">
+            <h1>Not a piece of cake</h1>
+            <p>An innovative, fast-paced tactical board game set on a dynamic circular grid. Awarded <strong>2nd Place and Best Sound Design</strong> at the Rakun Game Jam.</p>
 
-                <h3>Key Mechanics</h3>
-                <ul>
-                    <li><strong>Dynamic Circular Movement:</strong> Navigate through floating stones arranged in concentric circles. Plan your path carefully, as every square can harbor a hidden trap such as a bomb, a piston, or a teleporter.</li>
-                    <li><strong>Tactical Card System:</strong> Upon successfully landing on a square, play one of the 6 tactical cards from your hand. Use these cards to teleport your opponent, swap positions, cancel their previous moves, or reverse the board's rotation.</li>
-                    <li><strong>Ring Manipulation:</strong> Instead of playing a card, you have the option to physically rotate the circular rings of the board. Shift the terrain to open new paths for yourself or block your opponent's progress.</li>
-                    <li><strong>The Race for Treasure:</strong> Be fast and cunning. The ultimate goal is to find the hidden treasure among the stones while using your traps, cards, and ring manipulation to keep your opponent as far away from the prize as possible.</li>
-                </ul>
+            <h3>Key Mechanics</h3>
+            <ul>
+                <li><strong>Dynamic Circular Movement:</strong> Navigate through floating stones arranged in concentric circles.</li>
+                <li><strong>Tactical Card System:</strong> Play one of the 6 tactical cards from your hand to teleport, swap, or cancel moves.</li>
+                <li><strong>Ring Manipulation:</strong> Physically rotate the circular rings of the board. Shift the terrain to open new paths.</li>
+            </ul>
 
-                <h3>Controls</h3>
-                <ul>
-                    <li><strong>Navigate:</strong> W, A, S, D (Move selection cursor across stones/rings).</li>
-                    <li><strong>Confirm Move/Action:</strong> Space Bar.</li>
-                    <li><strong>Card Selection:</strong> Mouse Click (Select and play tactical cards from your hand).</li>
-                </ul>
-            </div>
+            <h3>Controls</h3>
+            <ul>
+                <li><strong>Navigate:</strong> W, A, S, D (Move selection cursor across stones/rings).</li>
+                <li><strong>Confirm:</strong> Space Bar.</li>
+                <li><strong>Card Selection:</strong> Mouse Click.</li>
+            </ul>
+        </div>
 
-            <div class="media-gallery">
-                <img src="/Images/OtherImages/Cake_image1.jpg" alt="Not a piece of cake Screenshot 1" class="media-img" onerror="this.style.display='none'">
-                <img src="/Images/OtherImages/Cake_image2.jpg" alt="Not a piece of cake Screenshot 2" class="media-img" onerror="this.style.display='none'">
-                <img src="/Images/OtherImages/Cake_image3.jpg" alt="Not a piece of cake Screenshot 3" class="media-img" onerror="this.style.display='none'">
-            </div>
+        <div class="media-gallery">
+            <img src="/Images/OtherImages/Cake_image1.jpg" class="media-img" onerror="this.style.display='none'">
+            <img src="/Images/OtherImages/Cake_image2.jpg" class="media-img" onerror="this.style.display='none'">
+            <img src="/Images/OtherImages/Cake_image3.jpg" class="media-img" onerror="this.style.display='none'">
         </div>
     </div>
 
+    <script>
+        const meowSfx = document.getElementById('meow-sfx');
+        function playMeow() { meowSfx.currentTime = 0; meowSfx.play().catch(() => {}); }
+        document.querySelectorAll('.meow-btn').forEach(btn => { btn.addEventListener('click', playMeow); });
+    </script>
 </body>
 </html>

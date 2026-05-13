@@ -7,101 +7,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #1a1d24;
-            --accent: #00ADB5;
-            --text-main: #eeeeee;
-            --text-muted: #a0a5b1;
+            --bg-color: #100C09; --card-bg: #1E1510; --card-bg2: #231A13;
+            --accent: #00ADB5; --calico-orange: #E8924A; --calico-cream: #F5ECD7;
+            --gold: #E8B84B; --text-main: #F2EAE0; --text-muted: #9A8A7A;
             --font-main: 'Poppins', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden;}
         a { text-decoration: none; color: inherit; }
 
-        header { padding: 20px 50px; background: rgba(15, 17, 21, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .back-btn { font-weight: 600; font-size: 0.9rem; color: var(--text-main); transition: color 0.3s; }
-        .back-btn:hover { color: var(--accent); }
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: radial-gradient(ellipse at 15% 20%, rgba(232, 146, 74, 0.06) 0%, transparent 40%), radial-gradient(ellipse at 85% 75%, rgba(232, 146, 74, 0.05) 0%, transparent 35%);
+            pointer-events: none; z-index: 0;
+        }
+        body > * { position: relative; z-index: 1; }
 
-        .game-container { padding: 40px 10%; max-width: 1400px; margin: 0 auto; }
-        
-        .webgl-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--card-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; position: relative;}
-        
-        .game-content { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
-        @media (max-width: 900px) { .game-content { grid-template-columns: 1fr; } }
+        header { position: fixed; top: 0; width: 100%; padding: 18px 50px; display: flex; justify-content: space-between; align-items: center; background: rgba(16, 12, 9, 0.88); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid rgba(232, 146, 74, 0.12); }
+        .logo-wrap { display: flex; align-items: center; gap: 11px; cursor: pointer; text-decoration: none; }
+        .logo-wrap img { height: 34px; filter: drop-shadow(0 0 6px rgba(232, 146, 74, 0.3)); transition: 0.3s;}
+        .logo-wrap:hover img { transform: scale(1.08) rotate(-3deg); }
+        .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: 2px; color: var(--text-main); transition: 0.3s; }
+        .logo-wrap:hover .logo-text { color: var(--calico-orange); }
+        .back-btn { font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
+        .back-btn:hover { color: var(--calico-orange); }
 
-        .details h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; }
-        .details h3 { margin-top: 30px; margin-bottom: 10px; color: #fff; font-size: 1.3rem; border-bottom: 2px solid var(--card-bg); padding-bottom: 5px;}
+        .game-container { padding: 120px 10% 40px; max-width: 1400px; margin: 0 auto; }
+        .webgl-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; margin-bottom: 40px; border: 2px solid rgba(232,146,74,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow: hidden;}
+        
+        .details { background: var(--card-bg); padding: 40px; border-radius: 16px; border-left: 5px solid var(--calico-orange); margin-bottom: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.4);}
+        .details h1 { font-size: 2.5rem; color: var(--calico-orange); margin-bottom: 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
+        .details h3 { margin-top: 30px; margin-bottom: 10px; color: var(--calico-cream); font-size: 1.3rem; border-bottom: 1px solid rgba(232,146,74,0.15); padding-bottom: 5px;}
         .details p { color: var(--text-muted); margin-bottom: 15px; }
         .details ul { list-style-position: inside; color: var(--text-muted); margin-bottom: 15px; }
         .details li { margin-bottom: 8px; }
-        .details strong { color: #fff; }
+        .details strong { color: var(--text-main); }
 
-        .media-gallery { display: flex; flex-direction: column; gap: 20px; }
-        .media-img { width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
-        .media-img:hover { transform: scale(1.02); border-color: var(--accent); }
+        /* YATAY SCROLL GALERİ */
+        .media-gallery { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 15px; scrollbar-width: thin; scrollbar-color: var(--calico-orange) var(--card-bg2); }
+        ::-webkit-scrollbar { height: 8px; width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--calico-orange); border-radius: 4px; }
+        
+        .media-img { height: 280px; width: auto; border-radius: 12px; border: 1px solid rgba(232,146,74,0.15); flex-shrink: 0; transition: transform 0.3s; }
+        .media-img:hover { transform: scale(1.02); border-color: var(--calico-orange); }
 
+        @media (max-width: 768px) { header { padding: 16px 20px; flex-direction: column; gap: 14px; } .game-container { padding-top: 140px; } }
     </style>
 </head>
 <body>
+    <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
 
     <header>
-        <div class="logo">
-            <a href="index.html"><img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2240%22><text y=%2225%22 fill=%22%2300ADB5%22 font-family=%22sans-serif%22 font-size=%2220%22 font-weight=%22bold%22>TEAM CALICO</text></svg>'"></a>
-        </div>
-        <a href="index.html#games" class="back-btn">&larr; Back to Games</a>
+        <a href="index.html" class="logo-wrap meow-btn">
+            <img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico" onerror="this.style.display='none'">
+            <span class="logo-text">TEAM CALICO</span>
+        </a>
+        <a href="index.html#games" class="back-btn meow-btn">&larr; Back to Games</a>
     </header>
 
     <div class="game-container">
-        
         <div class="webgl-wrapper">
-            <iframe 
-                src="Games/MirrorBlade/index.html" 
-                width="100%" 
-                height="100%" 
-                frameborder="0" 
-                scrolling="no" 
-                allowfullscreen="true"
-                style="border: none;">
-            </iframe>
+            <iframe src="Games/MirrorBlade/index.html" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" style="border: none;"></iframe>
         </div>
 
-        <div class="game-content">
-            <div class="details">
-                <h1>MirrorBlade</h1>
-                <p>A fast-paced action-roguelike where you defend a central core using your blade and synchronized reflections to slice enemies and parry projectiles.</p>
-                <p>MirrorBlade was developed for the Aydın Game Jam, where it was awarded <strong>1st Place</strong>. The game challenges players to protect the heart of the universe against relentless waves of enemies. By controlling a character and its synchronized mirrors, players must utilize precise movement, tactical positioning, and timing to survive the onslaught.</p>
+        <div class="details">
+            <h1>MirrorBlade</h1>
+            <p>A fast-paced action-roguelike where you defend a central core using your blade and synchronized reflections to slice enemies and parry projectiles.</p>
+            <p>MirrorBlade was developed for the Aydın Game Jam, where it was awarded <strong>1st Place</strong>. The game challenges players to protect the heart of the universe against relentless waves of enemies.</p>
 
-                <h3>Developers</h3>
-                <ul>
-                    <li>Efe Görkem Akkanat</li>
-                    <li>Görkem Altıntaş</li>
-                </ul>
+            <h3>Developers</h3>
+            <ul>
+                <li>Efe Görkem Akkanat</li>
+                <li>Görkem Altıntaş</li>
+            </ul>
 
-                <h3>Key Mechanics</h3>
-                <ul>
-                    <li><strong>Parry and Reflect:</strong> Use your attack to deflect enemy projectiles. Reflected projectiles can be redirected toward enemies to deal massive damage.</li>
-                    <li><strong>Dynamic Movement:</strong> Navigate the circular arena while maintaining a strategic position relative to the Core.</li>
-                    <li><strong>Dash and Slash:</strong> Use the dash ability to reposition quickly or pierce through enemy lines.</li>
-                    <li><strong>Modular Architecture:</strong> Built using an event-driven, decoupled architecture for high performance and easy extensibility.</li>
-                </ul>
+            <h3>Key Mechanics</h3>
+            <ul>
+                <li><strong>Parry and Reflect:</strong> Use your attack to deflect enemy projectiles. Reflected projectiles can be redirected toward enemies to deal massive damage.</li>
+                <li><strong>Dynamic Movement:</strong> Navigate the circular arena while maintaining a strategic position relative to the Core.</li>
+                <li><strong>Dash and Slash:</strong> Use the dash ability to reposition quickly or pierce through enemy lines.</li>
+            </ul>
 
-                <h3>Controls</h3>
-                <ul>
-                    <li><strong>Rotate:</strong> Move Mouse (Character follows the cursor direction).</li>
-                    <li><strong>Move:</strong> Click and Hold Left Mouse Button (Move towards the cursor).</li>
-                    <li><strong>Attack:</strong> Space Bar (Melee strike and projectile parry).</li>
-                    <li><strong>Dash:</strong> Left Shift (Quick burst of movement, consumes mana).</li>
-                </ul>
-            </div>
+            <h3>Controls</h3>
+            <ul>
+                <li><strong>Rotate:</strong> Move Mouse (Character follows the cursor direction).</li>
+                <li><strong>Move:</strong> Click and Hold Left Mouse Button (Move towards the cursor).</li>
+                <li><strong>Attack:</strong> Space Bar (Melee strike and projectile parry).</li>
+                <li><strong>Dash:</strong> Left Shift (Quick burst of movement, consumes mana).</li>
+            </ul>
+        </div>
 
-            <div class="media-gallery">
-                <img src="/Images/OtherImages/MirrorBlade_image1.jpg" alt="MirrorBlade Screenshot 1" class="media-img" onerror="this.style.display='none'">
-                <img src="/Images/OtherImages/MirrorBlade_image2.jpg" alt="MirrorBlade Screenshot 2" class="media-img" onerror="this.style.display='none'">
-                <img src="/Images/OtherImages/MirrorBlade_image3.jpg" alt="MirrorBlade Screenshot 3" class="media-img" onerror="this.style.display='none'">
-            </div>
+        <div class="media-gallery">
+            <img src="/Images/OtherImages/MirrorBlade_image1.jpg" alt="MirrorBlade Screenshot 1" class="media-img" onerror="this.style.display='none'">
+            <img src="/Images/OtherImages/MirrorBlade_image2.jpg" alt="MirrorBlade Screenshot 2" class="media-img" onerror="this.style.display='none'">
+            <img src="/Images/OtherImages/MirrorBlade_image3.jpg" alt="MirrorBlade Screenshot 3" class="media-img" onerror="this.style.display='none'">
         </div>
     </div>
 
+    <script>
+        const meowSfx = document.getElementById('meow-sfx');
+        function playMeow() { meowSfx.currentTime = 0; meowSfx.play().catch(() => {}); }
+        document.querySelectorAll('.meow-btn').forEach(btn => { btn.addEventListener('click', playMeow); });
+    </script>
 </body>
 </html>
