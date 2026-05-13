@@ -69,7 +69,8 @@
             0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
             10% { opacity: 0.4; } /* SENİN AYARIN */
             90% { opacity: 0.4; } /* SENİN AYARIN */
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            /* 110vh yerine sitenin en altı olan CSS değişkenine kadar düşer */
+            100% { transform: translateY(var(--fall-distance, 5000px)) rotate(360deg); opacity: 0; } 
         }
 
         /* === NAVBAR === */
@@ -561,25 +562,40 @@
             cat.className = 'falling-cat';
             cat.innerText = '🐱';
 
+            // SENİN AYARIN: Rastgele sağ veya sol kenar (0-20% arası VEYA 85-100% arası)
             const isLeft = Math.random() > 0.5;
-            const horizontalPos = isLeft ? (Math.random() * 25) : (85 + Math.random() * 15);
+            const horizontalPos = isLeft ? (Math.random() * 20) : (85 + Math.random() * 20);
             cat.style.left = `${horizontalPos}%`;
             
-            const scrollY = window.scrollY || document.documentElement.scrollTop;
-            cat.style.top = `${scrollY - 50}px`; 
+            // FİZİK HESABI: Kediler hep sitenin EN ÜSTÜNDEN spawn olur
+            cat.style.top = `-50px`; 
+
+            // Sitenin toplam yüksekliğini hesapla
+            const docHeight = Math.max(
+                document.body.scrollHeight, 
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight, 
+                document.documentElement.offsetHeight
+            );
+
+            // Düşeceği toplam mesafeyi CSS değişkeni olarak ata (Sitenin en altına kadar)
+            cat.style.setProperty('--fall-distance', `${docHeight + 100}px`);
 
             const size = 1.3 + Math.random() * 1.5;
             cat.style.fontSize = `${size}rem`;
 
-            const duration = 8 + Math.random() * 8;
+            const speed = 350 + Math.random() * 200; // Saniyede kaç piksel düşeceği
+            const duration = docHeight / speed;
             cat.style.animationDuration = `${duration}s`;
 
             container.appendChild(cat);
 
+            // Sadece sitenin en altına ulaştığında (animasyon bitince) DOM'dan sil
             setTimeout(() => {
                 cat.remove();
             }, duration * 1000);
         }
+        
         setInterval(createFallingCat, 600);
 
         /* === GALLERY BUILD === */
