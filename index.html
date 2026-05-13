@@ -561,32 +561,26 @@
             cat.className = 'falling-cat';
             cat.innerText = '🐱';
 
-            // SENİN AYARIN: Rastgele sağ veya sol kenar (0-20% arası VEYA 85-100% arası)
             const isLeft = Math.random() > 0.5;
-            const horizontalPos = isLeft ? (Math.random() * 20) : (85 + Math.random() * 15);
+            const horizontalPos = isLeft ? (Math.random() * 25) : (85 + Math.random() * 15);
             cat.style.left = `${horizontalPos}%`;
             
-            // FİZİK HESABI: Kediler o anki ekranın tam üstünden, sayfanın mutlak koordinatlarına spawn olur.
             const scrollY = window.scrollY || document.documentElement.scrollTop;
             cat.style.top = `${scrollY - 50}px`; 
 
-            // SENİN AYARIN: Rastgele boyut (1 rem ile 2 rem arası)
-            const size = 1 + Math.random() * 1;
+            const size = 1.3 + Math.random() * 1.5;
             cat.style.fontSize = `${size}rem`;
 
-            // SENİN AYARIN: Rastgele düşme hızı (3 saniye ile 8 saniye arası)
-            const duration = 3 + Math.random() * 5;
+            const duration = 8 + Math.random() * 8;
             cat.style.animationDuration = `${duration}s`;
 
             container.appendChild(cat);
 
-            // Animasyon bitince DOM'dan sil
             setTimeout(() => {
                 cat.remove();
             }, duration * 1000);
         }
-        // SENİN AYARIN: Her 1000 milisaniyede bir yeni kedi yağdır
-        setInterval(createFallingCat, 1000);
+        setInterval(createFallingCat, 600);
 
         /* === GALLERY BUILD === */
         const galleryConfig = [
