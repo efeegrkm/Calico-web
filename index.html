@@ -47,6 +47,29 @@
         }
         body > * { position: relative; z-index: 1; }
 
+        /* === CAT RAIN EFFECT === */
+        #cat-rain-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Tıklamaları engellemesin diye */
+            z-index: 0; /* Arka planda kalsın */
+            overflow: hidden;
+        }
+        .falling-cat {
+            position: absolute;
+            top: -50px;
+            user-select: none;
+            animation: fall linear forwards;
+            opacity: 0.3; /* Göz yormaması için hafif şeffaf */
+            filter: drop-shadow(0 0 5px rgba(232, 146, 74, 0.5));
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
         /* === NAVBAR === */
         header {
             position: fixed; top: 0; width: 100%; padding: 18px 50px;
@@ -124,7 +147,7 @@
             background-image: url('/Images/OtherImages/CalicoMainPhoto.png');
             background-size: cover;
             background-position: center top;
-            filter: blur(7px) brightness(0.28) saturate(0.8);
+            filter: blur(3px) brightness(0.28) saturate(0.8);
             transform: scale(1.06);
             z-index: 0;
         }
@@ -176,7 +199,8 @@
         .paw-divider {
             text-align: center;
             margin: 10px 0 30px;
-            opacity: 0.35;
+            opacity: 0.8;
+            color: var(--calico-orange);
             font-size: 1.2rem;
             letter-spacing: 12px;
         }
@@ -210,7 +234,7 @@
         .timeline-item:nth-child(2)::before { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
         .timeline-item:nth-child(3)::before { background: var(--calico-cream); box-shadow: none; }
         .timeline-item h3 { color: var(--calico-orange); font-size: 1.5rem; margin-bottom: 8px; }
-        .timeline-item:nth-child(2) h3 { color: var(--accent); }
+        .timeline-item:nth-child(2) h3 { color: var(--calico-orange); }
         .timeline-item h4 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text-main); }
         .timeline-item p { color: var(--text-muted); font-size: 0.9rem; }
 
@@ -344,6 +368,8 @@
 </head>
 <body>
 
+    <div id="cat-rain-container"></div>
+
     <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
 
     <header>
@@ -454,12 +480,12 @@
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Rana.png');"></div>
                     <div class="member-name">Rana Demir</div>
-                    <div class="member-role">Developer / 3D Designer</div>
+                    <div class="member-role">Developer / 3D Artist</div>
                 </div>
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Dilay.png');"></div>
                     <div class="member-name">Dilay Kocacık</div>
-                    <div class="member-role">Art &amp; Design</div>
+                    <div class="member-role">Art &amp; Design / 3D Artist</div>
                 </div>
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_EfeRe.jpg');"></div>
@@ -469,7 +495,7 @@
                 <div class="member-card">
                     <div class="member-photo" style="background-image: url('/Images/OtherImages/Photo_Gorkem.jpg');"></div>
                     <div class="member-name">Görkem Altıntaş</div>
-                    <div class="member-role">Animator / Illustrator</div>
+                    <div class="member-role">Animator / 2D Illustrator</div>
                 </div>
             </div>
         </div>
@@ -500,6 +526,9 @@
                 <option value="General Inquiry">General Inquiry</option>
                 <option value="Sponsorship">Sponsorship</option>
                 <option value="Project Collaboration">Project Collaboration</option>
+                <option value="Bug Report">Bug Report</option>
+                <option value="Suggestion">Suggestion</option>
+                <option value="Chit-chat">Chit-chat</option>
             </select>
             <input type="text" name="name" placeholder="Name / Company" required>
             <input type="email" name="email" placeholder="Email Address" required>
@@ -513,12 +542,45 @@
         const meowSfx = document.getElementById('meow-sfx');
         function playMeow() {
             meowSfx.currentTime = 0;
+            meowSfx.volume = 0.5;
             meowSfx.play().catch(() => {});
         }
         document.getElementById('logo-link').addEventListener('click', playMeow);
         document.querySelectorAll('.meow-btn').forEach(btn => {
             btn.addEventListener('click', playMeow);
         });
+
+        /* === CAT RAIN SCRIPT === */
+        function createFallingCat() {
+            const container = document.getElementById('cat-rain-container');
+            if (!container) return;
+
+            const cat = document.createElement('div');
+            cat.className = 'falling-cat';
+            cat.innerText = '🐱';
+
+            // Rastgele sağ veya sol kenar (0-15% arası VEYA 85-100% arası)
+            const isLeft = Math.random() > 0.5;
+            const horizontalPos = isLeft ? (Math.random() * 15) : (85 + Math.random() * 15);
+            cat.style.left = `${horizontalPos}%`;
+            
+            // Rastgele boyut (1.2rem ile 2.5rem arası)
+            const size = 1.2 + Math.random() * 1.3;
+            cat.style.fontSize = `${size}rem`;
+
+            // Rastgele düşme hızı (6 saniye ile 12 saniye arası)
+            const duration = 6 + Math.random() * 6;
+            cat.style.animationDuration = `${duration}s`;
+
+            container.appendChild(cat);
+
+            // Animasyon bitince DOM'dan sil (Siteyi kasmasın diye)
+            setTimeout(() => {
+                cat.remove();
+            }, duration * 1000);
+        }
+        // Her 800 milisaniyede bir yeni kedi yağdır
+        setInterval(createFallingCat, 800);
 
         /* === GALLERY BUILD === */
         const galleryConfig = [
