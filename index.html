@@ -277,7 +277,7 @@
         .member-name { font-weight: 600; font-size: 1.05rem; margin-bottom: 4px; color: var(--calico-cream); }
         .member-role { font-size: 0.8rem; color: var(--calico-orange); margin-bottom: 12px; }
 
-        /* === GALLERY === */
+        /* === GALLERY PREVIEW === */
         .dyn-category { margin-bottom: 40px; }
         .dyn-title {
             font-size: 1.3rem; color: var(--gold); margin-bottom: 15px;
@@ -344,7 +344,6 @@
 </head>
 <body>
 
-    <!-- Meow sound -->
     <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
 
     <header>
@@ -437,7 +436,7 @@
 
         <div class="team-tree">
             <div class="root-logo">
-                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%221E1510%22/><text x=%2228%22 y=%2258%22 fill=%22%23E8924A%22 font-size=%2232%22>🐱</text></svg>'">
+                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%231E1510%22/><text x=%2228%22 y=%2258%22 fill=%22%23E8924A%22 font-size=%2232%22>🐱</text></svg>'">
             </div>
             <svg class="roots-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
                 <path d="M500,0 C500,100 100,100 100,200" />
@@ -553,7 +552,7 @@
         }
         document.addEventListener("DOMContentLoaded", buildHomeGalleryPreview);
 
-        /* === CONTACT MODAL === */
+        /* === CONTACT MODAL TOGGLE & OUTSIDE CLICK === */
         function toggleContact() {
             const modal = document.getElementById('contactModal');
             if (modal.classList.contains('active')) {
@@ -564,6 +563,17 @@
                 setTimeout(() => modal.style.opacity = '1', 10);
             }
         }
+        
+        // Modal dışına tıklandığında kapatma
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('contactModal');
+            const btn = document.querySelector('.chat-bubble-btn');
+            // Eğer modal açıksa VE tıklanan yer modal'ın veya butonun içi değilse kapat
+            if (modal.classList.contains('active') && !modal.contains(event.target) && !btn.contains(event.target)) {
+                modal.style.opacity = '0';
+                setTimeout(() => modal.classList.remove('active'), 300);
+            }
+        });
 
         /* === SMOOTH SCROLL === */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

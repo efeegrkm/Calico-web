@@ -52,26 +52,54 @@
 
         .paw-divider { text-align: center; margin: 10px 0 30px; opacity: 0.35; font-size: 1.2rem; letter-spacing: 12px; }
 
-        /* FULL GALLERY STYLES */
+        /* FULL GALLERY STYLES - MASONRY (Resimleri Kırpmaz) */
         .full-category { margin-bottom: 80px; }
         .full-title { font-size: 2rem; color: var(--gold); border-bottom: 1px solid rgba(232, 146, 74, 0.15); padding-bottom: 10px; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;}
-        .full-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; grid-auto-rows: 250px; grid-auto-flow: dense;}
         
-        .full-item { background-color: var(--card-bg); border-radius: 12px; overflow: hidden; background-size: cover; background-position: center; border: 1px solid rgba(232, 146, 74, 0.08); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer;}
+        .full-grid {
+            column-count: 3; /* 3 Sütunlu Duvar Mantığı */
+            column-gap: 20px;
+        }
+        
+        .full-item {
+            break-inside: avoid; /* Resmin yarısı alta geçmesin */
+            margin-bottom: 20px;
+            background-color: var(--card-bg); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid rgba(232, 146, 74, 0.08); 
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s, box-shadow 0.3s; 
+            cursor: pointer;
+        }
         .full-item:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); border-color: var(--calico-orange); z-index: 2;}
-        
-        .wide { grid-column: span 2; }
-        .tall { grid-row: span 2; }
+        .full-item img {
+            width: 100%;
+            height: auto; /* Kırpılmasını engeller, orijinal oranında kalır */
+            display: block;
+        }
+
+        /* LIGHTBOX (Tam Ekran Resim Büyütme) */
+        .lightbox {
+            display: none; position: fixed; z-index: 2000; inset: 0;
+            background: rgba(10, 8, 6, 0.95); backdrop-filter: blur(5px);
+            justify-content: center; align-items: center;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; font-size: 40px; color: var(--text-main); cursor: pointer; transition: 0.3s; }
+        .close-lightbox:hover { color: var(--calico-orange); }
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(232,146,74,0.2); color: var(--text-main); border: none; font-size: 30px; padding: 15px 20px; cursor: pointer; border-radius: 50%; transition: 0.3s; }
+        .nav-btn:hover { background: var(--calico-orange); color: #fff; }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
 
         /* SCROLLBAR */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: var(--calico-orange); border-radius: 3px; }
 
-        @media (max-width: 768px) {
-            header { padding: 16px 20px; flex-direction: column; gap: 14px; }
-            .wide, .tall { grid-column: span 1; grid-row: span 1; }
-        }
+        @media (max-width: 900px) { .full-grid { column-count: 2; } }
+        @media (max-width: 600px) { header { padding: 16px 20px; flex-direction: column; gap: 14px; } .full-grid { column-count: 1; } }
     </style>
 </head>
 <body>
@@ -92,8 +120,14 @@
             <p>Behind the scenes, game jams, and our development journey.</p>
             <div class="paw-divider">🐾 🐾 🐾</div>
         </div>
-
         <div id="full-gallery-root"></div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
+        <img id="lightbox-img" src="" alt="Gallery Image">
+        <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
     </div>
 
     <script>
@@ -108,8 +142,12 @@
             { folder: "AydinGameJam",   title: "Aydın Game Jam",   images: ["Aydin1.jpeg","Aydin2.jpg"] }
         ];
 
+        let lightboxImages = []; // Büyütülecek tüm resimlerin listesi
+        let currentImageIndex = 0;
+
         function buildFullGallery() {
             const container = document.getElementById("full-gallery-root");
+            
             galleryConfig.forEach(jam => {
                 if (jam.images.length === 0) return;
 
@@ -125,19 +163,60 @@
                 grid.className = "full-grid";
 
                 for(let i = 0; i < jam.images.length; i++) {
-                    let imgDiv = document.createElement("div");
-                    let extraClass = "";
-                    if((i + 1) % 5 === 0) extraClass = "wide"; 
-                    else if ((i + 1) % 4 === 0) extraClass = "tall"; 
+                    let imagePath = `/Images/Galery/${jam.folder}/${jam.images[i]}`;
                     
-                    imgDiv.className = `full-item ${extraClass}`;
-                    imgDiv.style.backgroundImage = `url('/Images/Galery/${jam.folder}/${jam.images[i]}')`;
-                    grid.appendChild(imgDiv);
+                    // Resimleri lightbox listesine ekle
+                    let globalIndex = lightboxImages.length;
+                    lightboxImages.push(imagePath);
+
+                    let imgWrap = document.createElement("div");
+                    imgWrap.className = "full-item";
+                    imgWrap.onclick = () => openLightbox(globalIndex); // Tıklayınca büyüt
+                    
+                    // Artık arka plan olarak değil, normal img olarak basıyoruz ki kırpılmasın
+                    let imgTag = document.createElement("img");
+                    imgTag.src = imagePath;
+                    imgTag.alt = jam.title;
+                    
+                    imgWrap.appendChild(imgTag);
+                    grid.appendChild(imgWrap);
                 }
                 catDiv.appendChild(grid);
                 container.appendChild(catDiv);
             });
         }
+
+        // --- LIGHTBOX KONTROLLERİ ---
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById('lightbox-img').src = lightboxImages[currentImageIndex];
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if(currentImageIndex < 0) currentImageIndex = lightboxImages.length - 1; // Başa sar
+            if(currentImageIndex >= lightboxImages.length) currentImageIndex = 0; // Sona sar
+            document.getElementById('lightbox-img').src = lightboxImages[currentImageIndex];
+        }
+
+        // Klavye Ok Tuşları ile Kontrol
+        document.addEventListener('keydown', function(e) {
+            if(!document.getElementById('lightbox').classList.contains('active')) return;
+            if(e.key === "ArrowLeft") changeImage(-1);
+            if(e.key === "ArrowRight") changeImage(1);
+            if(e.key === "Escape") closeLightbox();
+        });
+
+        // Işıklı kutunun dışında siyah alana tıklayınca kapat
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if(e.target === this) closeLightbox();
+        });
+
         document.addEventListener("DOMContentLoaded", buildFullGallery);
     </script>
 </body>
