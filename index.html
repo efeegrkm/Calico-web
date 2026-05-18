@@ -70,7 +70,6 @@
             0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
             10% { opacity: 0.4; } 
             90% { opacity: 0.4; } 
-            /* Kediler düşerken daha fazla tur atması için 360deg yerine 1440deg yapıldı */
             100% { transform: translateY(var(--fall-distance, 5000px)) rotate(1440deg); opacity: 0; } 
         }
 
@@ -109,6 +108,12 @@
             transition: color 0.3s;
         }
         .logo-wrap:hover .logo-text { color: var(--calico-orange); }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
 
         nav ul { display: flex; gap: 30px; }
         nav ul li a {
@@ -238,7 +243,6 @@
         .timeline-item:nth-child(2)::before { background: var(--calico-orange); box-shadow: 0 0 8px var(--calico-orange-glow); }
         .timeline-item:nth-child(3)::before { background: var(--calico-cream); box-shadow: none; }
         .timeline-item h3 { color: var(--calico-orange); font-size: 1.5rem; margin-bottom: 8px; }
-        .timeline-item:nth-child(2) h3 { color: var(--calico-orange); }
         .timeline-item h4 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text-main); }
         .timeline-item p { color: var(--text-muted); font-size: 0.9rem; }
 
@@ -375,6 +379,11 @@
             border-bottom-left-radius: 4px;
             border-left: 3px solid var(--calico-orange);
         }
+        /* Markdown Kalın Yazıları İçin Stil (Turuncu) */
+        .ai-bubble strong {
+            color: var(--calico-orange);
+            font-weight: 600;
+        }
         .ai-nest-footer {
             padding: 15px 25px;
             background: var(--card-bg2);
@@ -468,6 +477,7 @@
 
         @media (max-width: 768px) {
             header { padding: 16px 20px; flex-direction: column; gap: 14px; }
+            .nav-container { flex-direction: column; gap: 10px; }
             section { padding: 120px 5%; }
             #hero h1 { font-size: 2.6rem; }
             .team-members { margin-top: 100px; flex-direction: column; }
@@ -479,7 +489,6 @@
 <body>
 
     <div id="cat-rain-container"></div>
-
     <audio id="meow-sfx" src="/Sounds/meow.mp3" preload="auto"></audio>
 
     <header>
@@ -487,15 +496,18 @@
             <img src="/Images/OtherImages/Logo_Header.png" alt="Team Calico Logo" onerror="this.style.display='none'">
             <span class="logo-text">TEAM CALICO</span>
         </a>
-        <nav>
-            <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#games">Games</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#calico-ai">Calico AI</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-            </ul>
-        </nav>
+        <div class="nav-container">
+            <nav>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#calico-ai">Calico AI</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                </ul>
+            </nav>
+            <a href="#calico-ai" class="btn meow-btn" style="padding: 7px 18px; font-size: 0.8rem; border-radius: 20px; box-shadow: none;">AI Chat 🐱</a>
+        </div>
     </header>
 
     <section id="hero">
@@ -573,7 +585,7 @@
 
         <div class="team-tree">
             <div class="root-logo">
-                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%231E1510%22/><text x=%2217%22 y=%2266%22 fill=%22%23E8924A%22 font-size=%2246%22>🐱</text></svg>'">
+                <img src="/Images/OtherImages/Logo_Calico_Roots.png" alt="Root" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%231E1510%22/><text x=%2250%22 y=%2280%22 text-anchor=%22middle%22 fill=%22%23E8924A%22 font-size=%2280%22>🐱</text></svg>'">
             </div>
             <svg class="roots-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
                 <path d="M500,0 C500,100 100,100 100,200" />
@@ -692,7 +704,7 @@
         const meowSfx = document.getElementById('meow-sfx');
         function playMeow() {
             meowSfx.currentTime = 0;
-            meowSfx.volume = 0.5;
+            meowSfx.volume = 0.25; // Sesi yarı yarıya (0.5'ten 0.25'e) kıstık
             meowSfx.play().catch(() => {});
         }
         document.getElementById('logo-link').addEventListener('click', playMeow);
@@ -700,7 +712,7 @@
             btn.addEventListener('click', playMeow);
         });
 
-        /* === CALICO AI CHAT INTEGRATION (STREAMING) === */
+        /* === CALICO AI CHAT INTEGRATION (STREAMING & MARKDOWN PARSER) === */
         function fillAiInput(text) {
             document.getElementById('aiNestInput').value = text;
         }
@@ -731,20 +743,21 @@
                     body: JSON.stringify({
                         model: 'calico-ai',
                         prompt: text,
-                        stream: true // Stream özelliği aktif edildi
+                        stream: true
                     })
                 });
 
                 document.getElementById(loadingId).remove();
                 
-                // Cevabın akacağı boş balonu oluştur
                 const msgId = 'msg-' + Date.now();
                 chatBody.innerHTML += `<div id="${msgId}" class="ai-bubble bot"><strong>Calico AI:</strong> <span class="content"></span></div>`;
                 const contentSpan = document.querySelector(`#${msgId} .content`);
 
-                // Stream okuma işlemi
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder('utf-8');
+                
+                // Gelen tam mesajı tutacağımız değişken
+                let fullMessage = "";
 
                 while (true) {
                     const { done, value } = await reader.read();
@@ -757,8 +770,15 @@
                         try {
                             const parsed = JSON.parse(line);
                             if (parsed.response) {
-                                let textChunk = parsed.response.replace(/\n/g, '<br>');
-                                contentSpan.innerHTML += textChunk;
+                                fullMessage += parsed.response;
+                                
+                                // Anlık Markdown çevirici (** için turuncu ve kalın, * için mavi)
+                                let formattedText = fullMessage
+                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                    .replace(/\*(.*?)\*/g, '<span style="color: var(--accent);">$1</span>')
+                                    .replace(/\n/g, '<br>');
+                                
+                                contentSpan.innerHTML = formattedText;
                                 chatBody.scrollTop = chatBody.scrollHeight;
                             }
                         } catch (e) {
