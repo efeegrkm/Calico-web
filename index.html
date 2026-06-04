@@ -92,7 +92,7 @@
             color: inherit;
         }
         .logo-wrap img {
-            height: 34px;
+            height: 75px;
             transition: transform 0.3s, filter 0.3s;
             filter: drop-shadow(0 0 6px rgba(232, 146, 74, 0.3));
         }
@@ -282,8 +282,16 @@
             border: 2px solid var(--calico-orange);
             box-shadow: 0 0 25px var(--calico-orange-glow);
             z-index: 2; position: relative;
+            box-sizing: border-box;
         }
-        .root-logo img { width: 60px; }
+        
+        .root-logo img {
+            width: 115px;
+            height: 115px;
+            object-fit: contain;
+            margin-top: 14px;
+            margin-left: 1px;
+        }
         .roots-svg { position: absolute; top: 100px; left: 0; width: 100%; height: 150px; z-index: 1; pointer-events: none; }
         .roots-svg path { fill: none; stroke: var(--calico-orange); stroke-width: 2; stroke-dasharray: 10; animation: rootsMove 20s linear infinite; opacity: 0.35; }
         @keyframes rootsMove { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 1000; } }
